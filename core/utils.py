@@ -313,9 +313,12 @@ class Utils:
             print('compare is None')
             return 'compare is None'
 
-        return screen
+        return False
 
-    def coordinates(self,width,height, input_text=None):
+    def coordinates(self, width, height, input_text=None):
+        if not self.driver:
+            print("⚠️ 错误: driver未初始化")
+            return False
         window_size = self.driver.get_window_size()
         if input is None:
             # 输入信息
@@ -330,10 +333,13 @@ class Utils:
             x = window_size['width'] * width
             y = window_size['height'] * height
             self.driver.tap([(x, y)], 10)
+            time.sleep(0.5)
+
             # Ctrl+A
             # self.driver.press_keycode(29, 28672)
             # self.driver.execute_script('mobile: type', {'text': ""})
             self.driver.press_keycode(29, 28672)
+            time.sleep(0.5)
             self.driver.execute_script('mobile: type', {'text': input_text})
             print(f"📍 已通过坐标 ({x}, {y})输入账号")
 
@@ -345,8 +351,38 @@ class Utils:
 
 
 
+    def lgs(self):
+        print("test")
+
+    # 返回点击主城
+    def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96, duration=300, desc="返回主城"):
+        """按屏幕百分比点击"""
+        try:
+            for i in range(num):
+                is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True)
+                if is_home is True:
+                    # 如果在首页则返回True
+                    return True
+                elif is_home is False:
+                    self.coordinates(width=x_percent, height=y_percent)
+                    time.sleep(0.5)
+                else:
+                    print("未知错误")
+            return False
+        except Exception as e:
+            print(e)
+            return False
 
 
 
 
 
+
+
+
+# 修改测试部分
+if __name__ == "__main__":
+    test = Utils()
+    # test.get_snapshot(file_path="../page_png/home.png", compare=True)
+    # time.sleep(0.5)
+    test.coordinates(width=0.92, height=0.2)
