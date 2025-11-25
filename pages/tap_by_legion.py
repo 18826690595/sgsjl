@@ -84,7 +84,7 @@ class Tap_By_Legion:
                 time.sleep(1.3)
                 self.utils.coordinates(width=0.95, height=0.84)
                 time.sleep(1.5)
-                self.utils.coordinates(width=0.07, height=0.88)
+                self.utils.coordinates(width=0.7, height=0.88)
 
             # 点击返回
             self.utils.coordinates(width=0.07, height=0.96)
