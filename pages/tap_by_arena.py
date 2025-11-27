@@ -1,29 +1,22 @@
 import time
 
 from sgmjl.core.utils import Utils
-from sgmjl.pages.tap_by_percent import Tap_By_Percent
 
 
 class Tap_By_Arena:
 
     def __init__(self, driver=None):
         self.driver = driver
-        self.utils = Utils()  # 将driver传递给Locators类
-        self.tap_by_percent = Tap_By_Percent()
+        self.utils = Utils()
 
     # 竞技场
     def Page_Arena(self, duration=300):
-        window_size = self.driver.get_window_size()
         # 点击主城
-        self.tap_by_percent(5)
+        self.utils.Page_Percent(5)
         # 判断是否在首页
         page_name = "../page_png/home.png"
-        is_home = self.get_snapshot(file_path=page_name, compare=True)
+        is_home = self.utils.get_snapshot(file_path=page_name, compare=True)
         if is_home is True:
-
-            # 初始化点击主城
-            self.tap_by_percent(5)
-
             # 点击擂台入口
             # print("\n🔄 点击同意服务条款...")
             # x = window_size['width'] * 0.2
@@ -71,5 +64,12 @@ class Tap_By_Arena:
 
 # 修改测试部分
 if __name__ == "__main__":
-    test = Tap_By_Arena()
-    test.Page_Arena()
+    try:
+        utils = Utils()
+        test = Tap_By_Arena()
+        test.Page_Arena()
+    except Exception as e:
+        print(e)
+    finally:
+        if 'test' in locals():
+            utils.quit()

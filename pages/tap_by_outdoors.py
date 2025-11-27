@@ -47,7 +47,8 @@ class Tap_By_OutDoors:
                     self.utils.coordinates(width=0.55, height=0.93)
                     time.sleep(0.5)
 
-                    for i in range(3):
+                    # 循环扫荡3次
+                    for i in range(6):
                         time.sleep(0.5)
                         self.utils.coordinates(width=0.85, height=0.45)
 

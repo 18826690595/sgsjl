@@ -14,7 +14,17 @@ from PIL import Image
 
 
 class Utils:
+    _instance = None  # 添加类变量用于单例模式
+    
+    def __new__(cls, *args, **kwargs):
+        if not cls._instance:
+            cls._instance = super(Utils, cls).__new__(cls)
+        return cls._instance
+
     def __init__(self, device_id="127.0.0.1:7555", package_name="com.wxbz_sgshjz.ks10"):
+        if hasattr(self, 'driver') and self.driver:  # 如果已经初始化则跳过
+            return
+            
         self.device_id = device_id
         self.package_name = package_name
         self.driver = None
@@ -315,33 +325,39 @@ class Utils:
 
         return False
 
-    def coordinates(self, width, height, input_text=None):
-        if not self.driver:
-            print("⚠️ 错误: driver未初始化")
+    def coordinates(self, width, height, input_text=None, press_keycode=None):
+        try:
+            if not self.driver:
+                print("⚠️ 错误: driver未初始化")
+                return False
+            window_size = self.driver.get_window_size()
+            if input_text is None:
+                # 输入信息
+                x = window_size['width'] * width
+                y = window_size['height'] * height
+                self.driver.tap([(x, y)], 10)
+                print(f"📍 已通过坐标 ({x}, {y})点击")
+                return True
+            if input_text is not None and press_keycode is not None:
+                # 输入信息
+                print("\n🔄 正在点击...")
+                x = window_size['width'] * width
+                y = window_size['height'] * height
+                self.driver.tap([(x, y)], 10)
+                time.sleep(0.5)
+
+                # Ctrl+A
+                # self.driver.press_keycode(29, 28672)
+                # self.driver.execute_script('mobile: type', {'text': ""})
+                time.sleep(0.5)
+                self.driver.execute_script('mobile: type', {'text': input_text})
+                self.driver.press_keycode(press_keycode)
+                print(f"📍 已通过坐标 ({x}, {y})输入{input_text}内容")
+                return True
+        except Exception as e:
+            print(e)
             return False
-        window_size = self.driver.get_window_size()
-        if input is None:
-            # 输入信息
-            x = window_size['width'] * width
-            y = window_size['height'] * height
-            self.driver.tap([(x, y)], 10)
-            print(f"📍 已通过坐标 ({x}, {y})输入账号")
 
-        else:
-            # 输入信息
-            print("\n🔄 点击同意服务条款...")
-            x = window_size['width'] * width
-            y = window_size['height'] * height
-            self.driver.tap([(x, y)], 10)
-            time.sleep(0.5)
-
-            # Ctrl+A
-            # self.driver.press_keycode(29, 28672)
-            # self.driver.execute_script('mobile: type', {'text': ""})
-            self.driver.press_keycode(29, 28672)
-            time.sleep(0.5)
-            self.driver.execute_script('mobile: type', {'text': input_text})
-            print(f"📍 已通过坐标 ({x}, {y})输入账号")
 
 
 
@@ -355,11 +371,11 @@ class Utils:
         print("test")
 
     # 返回点击主城
-    def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96, duration=300, desc="返回主城"):
+    def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96):
         """按屏幕百分比点击"""
         try:
             for i in range(num):
-                is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True)
+                is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True, page_name="主城")
                 if is_home is True:
                     # 如果在首页则返回True
                     return True
@@ -385,4 +401,7 @@ if __name__ == "__main__":
     test = Utils()
     # test.get_snapshot(file_path="../page_png/home.png", compare=True)
     # time.sleep(0.5)
-    test.coordinates(width=0.92, height=0.2)
+    # test.coordinates(width=0.92, height=0.2)
+    file_path = '../page_png/zhaomu_chenggong.png'
+    # app_manager.get_snapshot(file_path,1)
+    test.get_snapshot(file_path)

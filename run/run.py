@@ -1,5 +1,6 @@
 import time
-from pages.tap_by_login import Tap_By_Login
+from sgmjl.core.utils import Utils
+from sgmjl.pages.tap_by_login import Tap_By_Login
 from sgmjl.pages.tap_by_activity import Tap_By_Activity
 from sgmjl.pages.tap_by_arena import Tap_By_Arena
 from sgmjl.pages.tap_by_campaign import Tap_By_Campaign
@@ -43,6 +44,7 @@ class Run():
     def get_run(self):
         """主运行方法"""
         for i in range(202508001, 202508029):
+            print("===============")
             self.tap_by_login.Page_Login(username=i, password="python")
             self.tap_by_vip.Page_Vip()
             self.tap_by_good_friend.Page_good_friend()
@@ -65,8 +67,9 @@ class Run():
 
 if __name__ == "__main__":
     try:
-        app_manager = Run()
-        app_manager.get_run()
+        app_manager = Utils()
+        run = Run()
+        run.get_run()
 
     except Exception as e:
         print(e)
