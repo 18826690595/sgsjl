@@ -1,15 +1,15 @@
 
 import time
 
-from sgmjl.core.utils import Utils
-from sgmjl.pages.tap_by_percent import Tap_By_Percent
+from core.utils import Utils
+
 
 
 class Tap_By_OutDoors:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
+        self.utils = Utils(self.driver)
 
 
 
@@ -17,8 +17,7 @@ class Tap_By_OutDoors:
     # 野外
     def Page_OutDoors(self, duration=300):
         # 初始化点击主城
-        self.utils.Page_Percent(10)
-        is_home = self.utils.get_snapshot(file_path="../page_png/home.png", compare=True)
+        is_home = self.utils.Page_Percent(5)
         if is_home is True:
             time.sleep(0.5)
             self.utils.coordinates(width=0.76, height = 0.94)
@@ -38,8 +37,8 @@ class Tap_By_OutDoors:
                 self.utils.coordinates(width=0.07, height = 0.96)
                 time.sleep(0.5)
 
-                outdoors = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
-                if outdoors is True:
+                is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
+                if is_outdoors1 is True:
                     time.sleep(0.5)
                     self.utils.coordinates(width=0.3, height=0.2)
 
@@ -65,8 +64,3 @@ class Tap_By_OutDoors:
         else:
             print("未知错误")
 
-
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_OutDoors()
-    test.Page_OutDoors()

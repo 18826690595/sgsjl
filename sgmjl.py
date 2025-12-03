@@ -277,26 +277,79 @@ class AppAutoManager:
         print(f"❌ 未找到文字: '{target_text}'")
         return False
 
-    # 返回点击主城
-    def tap_by_percent(self,num=1, x_percent=0.07, y_percent=0.96, duration=300, desc="返回主城"):
-        """按屏幕百分比点击"""
-        window_size = self.driver.get_window_size()
-        x = window_size['width'] * x_percent
-        y = window_size['height'] * y_percent
-        for i in range(num):
-            self.driver.tap([(x, y)], duration)
-            print(f"📍 已通过坐标点击 ({x:.0f}, {y:.0f}) {desc}")
-            sleep(0.5)
 
-        page_name = "./page_png/tanchuang1.png"
-        is_home = self.get_snapshot(file_path=page_name, compare=True)
-        if is_home is True:
-            x = window_size['width'] * 0.92
-            y = window_size['height'] * 0.2
+    def get_snapshot1(self, file_path=None, compare=False, threshold=0.7, page_name=None):
+        """获取当前屏幕截图并进行比较"""
+        if file_path is None:
+            print("❌ 未提供截图文件路径")
+            return False
+        # 获取当前屏幕截图
+        screenshot = self.driver.get_screenshot_as_png()
+
+    def coordinates(self, width, height, input_text=None, press_keycode=None):
+        try:
+            if not self.driver:
+                print("⚠️ 错误: driver未初始化")
+                return False
+
+            try:
+                window_size = self.driver.get_window_size()
+            except Exception as e:
+                print(f"⚠️ 获取窗口尺寸失败: {str(e)}")
+                print("🔄 尝试重新初始化Appium驱动...")
+                self.appium_init()
+                try:
+                    window_size = self.driver.get_window_size()
+                except Exception as e:
+                    print(f"❌ 重连失败: {str(e)}")
+                    return False
+
+            x = window_size['width'] * width
+            y = window_size['height'] * height
             self.driver.tap([(x, y)], 10)
+            
+            # # 修改点击方式为TouchAction
+            # from appium.webdriver.common.touch_action import TouchAction
+            # action = TouchAction(self.driver)
+            # action.tap(x=x, y=y).perform()
+            
+            print(f"📍 已通过坐标 ({x}, {y})点击")
+            time.sleep(0.5)  # 添加短暂延迟确保操作完成
+            
+            if input_text is not None and press_keycode is not None:
+                # 输入文本
+                self.driver.execute_script('mobile: type', {'text': input_text})
+                self.driver.press_keycode(press_keycode)
+                print(f"📍 已通过坐标 ({x}, {y})输入{input_text}内容")
+                
+            return True
+        except Exception as e:
+            print(f"❌ 坐标点击失败: {str(e)}")
+            return False
 
 
-        return x, y
+
+    # 返回点击主城
+    def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96):
+        """按屏幕百分比点击"""
+        try:
+            for i in range(num):
+                is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True, page_name="主城")
+                if is_home is True:
+                    # 如果在首页则返回True
+                    return True
+                elif is_home is False:
+                    self.coordinates(width=x_percent, height=y_percent)
+                    time.sleep(0.5)
+                else:
+                    print("未知错误")
+            return False
+        except Exception as e:
+            print(e)
+            return False
+
+
+
 
     # 领取vip经验
     def tap_by_vip(self, duration=300):
@@ -1157,32 +1210,32 @@ class AppAutoManager:
             if res is False:
                 time.sleep(3)
                 self.gelogin(username=username, password="python")
-
-
-            # 领取vip奖励
-            self.tap_by_vip()
-            time.sleep(1)
-
-            # 点击主城
-            self.tap_by_percent(1)
-            time.sleep(1)
-
-            # 点击好友收送
-            self.tap_by_good_friend()
-            # 聊天、军团派遣
-            self.tap_by_chat()
-            self.page_leitai()
-            self.page_douta()
-
-
-            self.page_zhaomu()
-            self.page_store()
-            # self.page_mail()
-            self.page_juntun()
-
-            self.page_yewai()
-            self.page_zhengzhan()
-            self.page_task()
+            #
+            #
+            # # 领取vip奖励
+            # self.tap_by_vip()
+            # time.sleep(1)
+            #
+            # # 点击主城
+            # self.tap_by_percent(1)
+            # time.sleep(1)
+            #
+            # # 点击好友收送
+            # self.tap_by_good_friend()
+            # # 聊天、军团派遣
+            # self.tap_by_chat()
+            # self.page_leitai()
+            # self.page_douta()
+            #
+            #
+            # self.page_zhaomu()
+            # self.page_store()
+            # # self.page_mail()
+            # self.page_juntun()
+            #
+            # self.page_yewai()
+            # self.page_zhengzhan()
+            # self.page_task()
 
 
 

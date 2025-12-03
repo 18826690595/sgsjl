@@ -13,67 +13,20 @@ import pytesseract
 from PIL import Image
 
 
-class Utils:
-    _instance = None  # 添加类变量用于单例模式
-    
-    def __new__(cls, *args, **kwargs):
-        if not cls._instance:
-            cls._instance = super(Utils, cls).__new__(cls)
-        return cls._instance
+class Utils():
 
-    def __init__(self, device_id="127.0.0.1:7555", package_name="com.wxbz_sgshjz.ks10"):
-        if hasattr(self, 'driver') and self.driver:  # 如果已经初始化则跳过
-            return
-            
-        self.device_id = device_id
-        self.package_name = package_name
-        self.driver = None
-        # 检查Tesseract OCR是否可用
+    def __init__(self, driver):
+        self.driver = driver
+        # 初始化时获取一次窗口尺寸
         try:
-            # 测试中文OCR是否可用
-            pytesseract.image_to_string(Image.new('RGB', (100, 100)), lang='chi_sim')
-            print("✅ Tesseract OCR 中文识别已正确配置")
-            pytesseract.get_tesseract_version()
-            print("✅ Tesseract OCR 已正确安装并配置")
-        except EnvironmentError as e:
-            print(f"⚠️ 警告: Tesseract OCR配置错误 - {str(e)}")
-            print("请确保:")
-            print("1. 已从 https://github.com/UB-Mannheim/tesseract/wiki 下载并安装Tesseract OCR")
-            print("2. 已下载语言数据文件(如eng.traineddata)并放在C:\\Program Files\\Tesseract-OCR\\tessdata目录下")
-        except EnvironmentError:
-            print("⚠️ 警告: Tesseract OCR未安装或不在PATH中，文字识别功能将不可用")
-            print("请从 https://github.com/UB-Mannheim/tesseract/wiki 下载并安装Tesseract OCR")
-        # 图像识别阈值
-        # 设置Desired Capabilities
-        self.desired_caps = {
-            "platformName": "Android",
-            "deviceName": "emulator-5554",
-            "appPackage": "com.example.game",
-            "appActivity": ".MainActivity",
-            "automationName": "UiAutomator2"
-        }
-        # 初始化Appium驱动
-        print(f"🚀 初始化自动化管理器 - 设备ID: {device_id}, 包名: {package_name}")
-        self.appium_init()
-
-    def appium_init(self):
-        print("⚙️ 正在初始化Appium驱动...")
-        caps = UiAutomator2Options()
-        caps.set_capability("appium:deviceName", self.device_id)
-        caps.set_capability("appium:appPackage", self.package_name)
-        caps.set_capability("appium:appActivity", ".MainActivity")
-        caps.set_capability("appium:automationName", "UiAutomator2")
-        caps.set_capability("appium:noReset", True)
-
-        appium_server_url = "http://127.0.0.1:4723"
-        try:
-            self.driver = webdriver.Remote(appium_server_url, options=caps)
-            self.driver.implicitly_wait(15)
-            print(f"✅ Appium驱动初始化成功 - 服务器: {appium_server_url}")
+            self.window_size = self.driver.get_window_size()
+            print(f"✅ 已获取窗口尺寸: {self.window_size}")
         except Exception as e:
-            print(f"❌ Appium连接失败: {str(e)}")
-            raise
+            print(f"❌ 获取窗口尺寸失败: {str(e)}")
+            self.window_size = {'width': 1920, 'height': 1080}  # 默认值
 
+
+    # 图片识别处理提取文本
     def find_game_entry(self, image_path=None, button_name=None, duration=300):
         best_match = None
         # 如果未提供image_path，则获取当前屏幕截图
@@ -214,36 +167,6 @@ class Utils:
             print(f"未找到足够的目标字符来匹配'{button_name}'")
             return None
 
-    def find_element(self, by=By.ID, value=None, timeout=15):
-        try:
-            return WebDriverWait(self.driver, timeout).until(
-                EC.presence_of_element_located((by, value))
-            )
-        except TimeoutException:
-            print(f"⏱️ 超时未找到元素: {by}={value}")
-            return None
-
-    def click_element(self, by=By.ID, value=None):
-        elem = self.find_element(by, value)
-        if elem:
-            elem.click()
-            time.sleep(1.5)  # 延长点击后等待时间，让页面响应
-            print(f"🖱️ 点击元素: {by}={value}")
-            return True
-        print(f"⚠️ 点击失败: 未找到元素 {by}={value}")
-        return False
-
-    def input_text(self, by=By.ID, value=None, text=""):
-        elem = self.find_element(by, value)
-        if elem:
-            elem.clear()
-            time.sleep(0.5)
-            elem.send_keys(text)
-            time.sleep(1.5)
-            print(f"⌨️ 输入文本: '{text}' (元素: {by}={value})")
-            return True
-        print(f"⚠️ 输入失败: 未找到元素 {by}={value}")
-        return False
 
     def click_text_on_screen(self, target_text, threshold=0.7, duration=300):
         """通过OCR识别屏幕上的文字并点击"""
@@ -287,88 +210,190 @@ class Utils:
 
 
     def get_snapshot(self, file_path=None, compare=None, threshold=0.7, page_name="test"):
-        # 保存截图传file_path, 两图比较传file_path 和 compare
-        # 获取当前屏幕截图
-        screenshot = self.driver.get_screenshot_as_png()
-        screenshot_np = np.frombuffer(screenshot, np.uint8)
-        screen = cv2.imdecode(screenshot_np, cv2.IMREAD_COLOR)
-        if file_path and compare is None:
-            if not os.path.exists(file_path):  # 检查文件是否已存在
-                with open(file_path, 'wb') as file:
-                    file.write(screenshot)
-                    print("✅ 截图已保存")
-            else:
-                print("⚠️ 截图文件已存在，跳过保存")
-        else:
-            print('file_path is None')
+        max_retries = 3
+        retry_delay = 1  # 秒
+        
+        for attempt in range(max_retries):
+            try:
+                # 获取当前屏幕截图
+                screenshot = self.driver.get_screenshot_as_png()
+                screenshot_np = np.frombuffer(screenshot, np.uint8)
+                screen = cv2.imdecode(screenshot_np, cv2.IMREAD_COLOR)
+                
+                # 添加连接重置检查
+                if screen is None or screen.size == 0:
+                    raise Exception("获取的截图为空")
+                    
+                if file_path and compare is None:
+                    if not os.path.exists(file_path):  # 检查文件是否已存在
+                        with open(file_path, 'wb') as file:
+                            file.write(screenshot)
+                            print("✅ 截图已保存")
+                    else:
+                        print("⚠️ 截图文件已存在，跳过保存")
+                else:
+                    print('file_path is None')
+            
+                if compare and file_path is not None:
+                    template = cv2.imread(file_path, cv2.IMREAD_COLOR)
+                    if template is None:
+                        print(f"❌ 无法加载{page_name}模板图像")
+                        return False
+            
+                    # 进行模板匹配
+                    result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
+                    min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+            
+                    if max_val >= threshold:
+                        print(f"✅ 通过图像匹配点击{page_name}按钮 (置信度: {max_val:.2f})")
+                        time.sleep(1)
+                        return True
+                    else:
+                        print(f"❌ 未找到匹配的{page_name}按钮 (最高置信度: {max_val:.2f})")
+                else:
+                    print('compare is None')
+                    return 'compare is None'
+            
+                return False
+            
+            except Exception as e:
+                print(f"⚠️ 截图失败 (尝试 {attempt + 1}/{max_retries}): {str(e)}")
+                if attempt == max_retries - 1:
+                    return False
+                
+                # 检查特定错误类型
+                if "instrumentation process is not running" in str(e) or "socket hang up" in str(e):
+                    try:
+                        # 尝试重启driver连接
+                        capabilities = getattr(self.driver, '_caps', {})
+                        server_url = getattr(self.driver, 'command_executor', None)
+                        if server_url is None:
+                            print("❌ 无法获取Appium服务器URL")
+                            return False
+                            
+                        # 确保server_url是字符串类型
+                        if hasattr(server_url, '_url'):
+                            server_url_str = str(server_url._url)
+                        else:
+                            server_url_str = str(server_url)
+                        
+                        # 清理URL中的控制字符
+                        server_url_str = ''.join(char for char in server_url_str if ord(char) >= 32)
+                        
+                        # 关闭旧的driver
+                        try:
+                            self.driver.quit()
+                        except:
+                            pass
+                            
+                        # 创建新的driver连接
+                        try:
+                            capabilities['newCommandTimeout'] = 600  # 设置为10分钟
+                            
+                            self.driver = webdriver.Remote(
+                                command_executor=server_url_str,
+                                options=UiAutomator2Options().load_capabilities(capabilities)
+                            )
+                        except Exception as e:
+                            print(f"❌ 恢复连接失败: {str(e)}")
+                            return False
+                        print("🔄 已重新建立Appium连接")
+                        time.sleep(3)  # 等待更长时间让服务稳定
+                    except Exception as restart_error:
+                        print(f"❌ 恢复连接失败: {str(restart_error)}")
+                        return False
+                
+                # 增加重试延迟时间，指数退避
+                time.sleep(retry_delay * (attempt + 1))
+                # 尝试重置driver连接
+                try:
+                    self.driver.reset()
+                except:
+                    pass
 
-        if compare and file_path is not None:
-            template = cv2.imread(file_path, cv2.IMREAD_COLOR)  # 改为军团相关模板
-            if template is None:
-                print(f"❌ 无法加载{page_name}模板图像")
-
-            # 进行模板匹配
-            result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
-            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
-
-            # 设置匹配阈值 # 提高阈值减少误匹配
-            if max_val >= threshold:
-                # 匹配值
-                print(f"✅ 通过图像匹配点击{page_name}按钮 (置信度: {max_val:.2f})")
-                time.sleep(1)
-                return True
-            else:
-                print(f"❌ 未找到匹配的{page_name}按钮 (最高置信度: {max_val:.2f})")
-        else:
-            print('compare is None')
-            return 'compare is None'
-
-        return False
 
     def coordinates(self, width, height, input_text=None, press_keycode=None):
         try:
             if not self.driver:
                 print("⚠️ 错误: driver未初始化")
                 return False
-            window_size = self.driver.get_window_size()
-            if input_text is None:
-                # 输入信息
-                x = window_size['width'] * width
-                y = window_size['height'] * height
-                self.driver.tap([(x, y)], 10)
-                print(f"📍 已通过坐标 ({x}, {y})点击")
-                return True
+    
+            # 使用缓存的窗口尺寸，避免重复获取
+            if not hasattr(self, '_cached_window_size'):
+                self._cached_window_size = self.window_size
+            
+            x = self._cached_window_size['width'] * width
+            y = self._cached_window_size['height'] * height
+            
+            # 添加点击操作的重试机制
+            max_retries = 3
+            for attempt in range(max_retries):
+                try:
+                    # 检查连接状态
+                    try:
+                        self.driver.current_activity  # 简单检查连接状态
+                    except Exception as conn_error:
+                        print(f"⚠️ 连接检查失败: {str(conn_error)}")
+                        raise conn_error
+                    
+                    # 直接尝试点击操作
+                    self.driver.tap([(x, y)], 10)
+                    print(f"📍 已通过坐标 ({x}, {y})点击")
+                    break
+                except Exception as e:
+                    error_msg = str(e)
+                    if "socket hang up" in error_msg or "instrumentation process is not running" in error_msg:
+                        print(f"⚠️ Appium服务异常 (尝试 {attempt + 1}/{max_retries}): {error_msg}")
+                        if attempt == max_retries - 1:
+                            return False
+                            
+                        # 更健壮的重连逻辑
+                        try:
+                            capabilities = getattr(self.driver, '_caps', {})
+                            server_url = getattr(self.driver, 'command_executor', None)
+                            if not server_url:
+                                print("❌ 无法获取Appium服务器URL")
+                                return False
+                                
+                            # 确保先退出旧会话
+                            try:
+                                self.driver.quit()
+                            except:
+                                pass
+                                
+                            # 创建新的driver连接
+                            self.driver = webdriver.Remote(
+                                command_executor=str(server_url),
+                                options=UiAutomator2Options().load_capabilities(capabilities)
+                            )
+                            print("🔄 已重新建立Appium连接")
+                            time.sleep(3)  # 增加等待时间
+                        except Exception as restart_error:
+                            print(f"❌ 恢复连接失败: {str(restart_error)}")
+                            return False
+                    else:
+                        print(f"❌ 坐标点击失败: {error_msg}")
+                        return False
+                    time.sleep(1)  # 重试间隔
+    
+            time.sleep(0.5)
+            
             if input_text is not None and press_keycode is not None:
-                # 输入信息
-                print("\n🔄 正在点击...")
-                x = window_size['width'] * width
-                y = window_size['height'] * height
-                self.driver.tap([(x, y)], 10)
-                time.sleep(0.5)
-
-                # Ctrl+A
-                # self.driver.press_keycode(29, 28672)
-                # self.driver.execute_script('mobile: type', {'text': ""})
-                time.sleep(0.5)
-                self.driver.execute_script('mobile: type', {'text': input_text})
-                self.driver.press_keycode(press_keycode)
-                print(f"📍 已通过坐标 ({x}, {y})输入{input_text}内容")
-                return True
+                try:
+                    self.driver.execute_script('mobile: type', {'text': input_text})
+                    self.driver.press_keycode(press_keycode)
+                    print(f"📍 已通过坐标 ({x}, {y})输入{input_text}内容")
+                except Exception as e:
+                    print(f"❌ 输入文本失败: {str(e)}")
+                    return False
+                
+            return True
         except Exception as e:
-            print(e)
+            print(f"❌ 坐标点击失败: {str(e)}")
             return False
 
 
 
-
-    def quit(self):
-        """退出方法"""
-        self.driver.quit()
-
-
-
-    def lgs(self):
-        print("test")
 
     # 返回点击主城
     def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96):
@@ -391,17 +416,29 @@ class Utils:
 
 
 
+    def is_Vip_Page(self):
+        pass
+    def is_GoodFriend_Page(self):
+        pass
+    def is_Chat_Page(self):
+        pass
+    def is_Arena_Page(self):
+        pass
+    def is_Trials_Tower_Page(self):
+        pass
+    def is_Recruit_Page(self):
+        pass
+    def is_Store_Page(self):
+        pass
+    def is_Legion_Page(self):
+        pass
+    def is_OutDoors_Page(self):
+        pass
+    def is_Campaign_Page(self):
+        pass
+    def is_Task_Page(self):
+        pass
 
 
 
 
-
-# 修改测试部分
-if __name__ == "__main__":
-    test = Utils()
-    # test.get_snapshot(file_path="../page_png/home.png", compare=True)
-    # time.sleep(0.5)
-    # test.coordinates(width=0.92, height=0.2)
-    file_path = '../page_png/zhaomu_chenggong.png'
-    # app_manager.get_snapshot(file_path,1)
-    test.get_snapshot(file_path)

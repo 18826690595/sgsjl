@@ -1,14 +1,13 @@
 import time
 
-from sgmjl.core.utils import Utils
-from sgmjl.pages.tap_by_percent import Tap_By_Percent
+from core.utils import Utils
 
 
 class Tap_By_VIP():
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
+        self.utils = Utils(self.driver)
 
     # 领取vip经验
     def Page_Vip(self):
@@ -16,7 +15,7 @@ class Tap_By_VIP():
         # 点击主城
         is_home = self.utils.Page_Percent(5)
         try:
-            if is_home:  # 修复条件判断
+            if is_home is True:  # 修复条件判断
                 try:
                     # 点击vip入口
                     self.utils.coordinates(width=0.07, height=0.1)

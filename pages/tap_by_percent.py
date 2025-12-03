@@ -1,13 +1,10 @@
 import time
 
-from sgmjl.core.utils import Utils
-
 
 class Tap_By_Percent:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
 
     # 返回点击主城
     def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96, duration=300, desc="返回主城"):

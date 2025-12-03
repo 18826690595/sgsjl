@@ -1,21 +1,20 @@
 import time
 
-from sgmjl.core.utils import Utils
+from core.utils import Utils
 
 
 class Tap_By_Trials_Tower:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
+        self.utils = Utils(self.driver)
 
 
     # 斗塔
     def Page_Trials_Tower(self, duration=300):
         # window_size = self.driver.get_window_size()
         # 初始化点击主城
-        self.utils.Page_Percent(5)
-        is_home = self.utils.get_snapshot(file_path="../page_png/home.png", compare=True)
+        is_home = self.utils.Page_Percent(5)
         if is_home is True:
             # 点击斗塔入口
             self.utils.coordinates(width=0.4, height=0.5)

@@ -1,16 +1,13 @@
 import time
 
-from sgmjl.core.utils import Utils
-from sgmjl.pages.tap_by_percent import Tap_By_Percent
+from core.utils import Utils
+from pages.tap_by_percent import Tap_By_Percent
 
 
 class Tap_By_Activity:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
-        self.tap_by_percent = Tap_By_Percent()
-
 
     # 活动
     def Page_Activity(self):

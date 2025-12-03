@@ -1,22 +1,20 @@
 import time
 
-from sgmjl.core.utils import Utils
-from sgmjl.pages.tap_by_percent import Tap_By_Percent
+from core.utils import Utils
 
 
 class Tap_By_Chat:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
+        self.utils = Utils(self.driver)
 
 
     # 聊天、军团
     def Page_Chat(self, text="1"):
         """按屏幕百分比点击"""
         # 点击主城
-        self.utils.Page_Percent(5)
-        is_home = self.utils.get_snapshot(file_path="../page_png/home.png", compare=True)
+        is_home = self.utils.Page_Percent(5)
         if is_home is True:
             # 点击聊天入口
             self.utils.coordinates(width=0.07, height=0.82)
@@ -71,8 +69,3 @@ class Tap_By_Chat:
         else:
             print("军团援助异常pass")
             return False
-
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_Chat()
-    test.Page_Chat()

@@ -1,22 +1,20 @@
 import time
 
-from sgmjl.core.utils import Utils
+from core.utils import Utils
 
 
 class Tap_By_Good_Friend:
 
-    def __init__(self, driver=None):
+    def __init__(self, driver):
         self.driver = driver
-        self.utils = Utils()
+        self.utils = Utils(self.driver)
 
 
     # 好友日常任务
     def Page_good_friend(self):
         """按屏幕百分比点击"""
         # 点击主城
-        self.utils.Page_Percent(5)
-        page_name = "../page_png/home.png"
-        is_home = self.utils.get_snapshot(file_path=page_name, compare=True)
+        is_home = self.utils.Page_Percent(5)
         if is_home is True:
             # 点击好友入口
             self.utils.coordinates(width=0.07, height=0.78)
