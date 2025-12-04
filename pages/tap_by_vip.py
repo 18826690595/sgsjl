@@ -22,6 +22,7 @@ class Tap_By_VIP():
                     # 点击宝箱
                     self.utils.coordinates(width=0.94, height=0.24)
                     # 点击领取
+                    time.sleep(0.5)
                     self.utils.coordinates(width=0.5, height=0.58)
 
                     print("vip经验已领取")

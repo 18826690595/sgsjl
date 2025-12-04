@@ -28,7 +28,7 @@ class Tap_By_Login:
                 time.sleep(0.5)
 
     def Page_Login(self, username, password="python"):
-        time.sleep(3)  # 增加等待时间
+        print(f"正在登录{username}")
         try:
             is_login = self.utils.get_snapshot(file_path="../page_png/login.png", compare=True)
             if is_login is True:

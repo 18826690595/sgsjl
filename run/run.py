@@ -45,23 +45,22 @@ class Run():
         """主运行方法"""
         try:
             for i in range(202508002, 202508029):
-                # print("===============")
-                self.tap_by_login.Page_Login(username=i, password="python")
-                self.tap_by_vip.Page_Vip()
-                self.tap_by_good_friend.Page_good_friend()
-                self.tap_by_chat.Page_Chat()
-                self.tap_by_arena.Page_Arena()
-                self.tap_by_trials_tower.Page_Trials_Tower()
-                self.tap_by_recruit.Page_Recruit()
-                self.tap_by_store.Page_Store()
-                self.tap_by_legion.Page_Legion()
+                # self.tap_by_login.Page_Login(username=i, password="python")
+                # self.tap_by_vip.Page_Vip()
+                # self.tap_by_good_friend.Page_good_friend()
+                # self.tap_by_chat.Page_Chat()
+                # self.tap_by_arena.Page_Arena()
+                # self.tap_by_trials_tower.Page_Trials_Tower()
+                # self.tap_by_recruit.Page_Recruit()
+                # self.tap_by_store.Page_Store()
+                # self.tap_by_legion.Page_Legion()
                 self.tap_by_outdoors.Page_OutDoors()
-                self.tap_by_campaign.Page_Campaign()
-                self.tap_by_task.Page_Task()
+                # self.tap_by_campaign.Page_Campaign()
+                # self.tap_by_task.Page_Task()
+                #
+                # self.tap_by_outlogin.Page_Out_Login()
 
-                self.tap_by_outlogin.Page_Out_Login()
-
-                # break
+                break
                 # 点击主城
                 # self.tap_by_percent.Page_Percent()
 

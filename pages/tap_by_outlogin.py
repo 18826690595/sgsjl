@@ -10,7 +10,7 @@ class Tap_By_OutLogin:
 
 
     # 退出登录
-    def Page_Out_Login(self, duration=1000):
+    def Page_Out_Login(self):
         """按屏幕百分比点击"""
 
         # 点击主城
@@ -33,8 +33,5 @@ class Tap_By_OutLogin:
         else:
             print("退出登录流程异常")
             return False
+        time.sleep(3)
 
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_OutLogin()
-    test.Page_Out_Login()

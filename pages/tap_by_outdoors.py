@@ -1,5 +1,6 @@
 
 import time
+from time import sleep
 
 from core.utils import Utils
 
@@ -11,56 +12,133 @@ class Tap_By_OutDoors:
         self.driver = driver
         self.utils = Utils(self.driver)
 
+    # 判断是否在野外页面
+    def tap_by_outdoors(self):
+        # 如果在野外页面则返回True
+        for i in range(2):
+            is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
+            if is_outdoors1 is True:
+                print(f"在野外页面则返回True{i}")
+                return True
+            else:
+                self.utils.coordinates(width=0.07, height=0.96)
 
-
-
-    # 野外
-    def Page_OutDoors(self, duration=300):
-        # 初始化点击主城
+        # 保底校验在野外页面
         is_home = self.utils.Page_Percent(5)
         if is_home is True:
-            time.sleep(0.5)
-            self.utils.coordinates(width=0.76, height = 0.94)
+            self.utils.coordinates(width=0.76, height=0.94)
+            is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
+            if is_outdoors1 is True:
+                return True
 
-            time.sleep(0.5)
-            self.utils.coordinates(width=0.3, height = 0.5)
 
-            time.sleep(0.5)
-            self.utils.coordinates(width=0.9, height = 0.7)
+    # 荆州
+    def JingZhou(self):
+        outdoors = self.tap_by_outdoors()
+        if outdoors is True:
 
+            # 点击荆州
+            self.utils.coordinates(width=0.7, height=0.2)
             time.sleep(0.5)
-            self.utils.coordinates(width=0.5, height = 0.65)
+            # 点击挑战
+            self.utils.coordinates(width=0.8, height=0.5)
+            self.utils.coordinates(width=0.8, height=0.64)
+            self.utils.coordinates(width=0.8, height=0.76)
+            # 点击一键派遣
+            # self.utils.coordinates(width=0.7, height=0.5)
+            # 点击出战
+            time.sleep(1)
+            self.utils.coordinates(width=0.33, height=0.85)
+            self.utils.coordinates(width=0.66, height=0.85)
+            time.sleep(2.5)
+            # 点击跳过战斗5次
+            for i in range(1, 13):
+                self.utils.coordinates(width=0.95, height=0.84)
+                sleep(1)
+                # 选择加成
+                if i == 2 or i == 3 or i == 5 or i == 8 or i == 10:
+                    self.utils.coordinates(width=0.5, height=0.63)
+                    time.sleep(0.5)
+            time.sleep(1)
+            # 点击返回玩法
+            self.utils.coordinates(width=0.7, height=0.88)
+        else:
+            print("不在野外页面")
+            return
 
-            # 点击返回按钮
-            # self.tap_by_percent()
+
+
+    # 激战虎牢
+    def rage_at_tiger_lair(self):
+        outdoors = self.tap_by_outdoors()
+        if outdoors is True:
+            # 点击激战虎牢
+            self.utils.coordinates(width=0.5, height=0.6)
+            # 点击领取排位奖励(需要判断是否有弹窗，调用图像识别太慢了，直接点击两次)
             for i in range(2):
-                self.utils.coordinates(width=0.07, height = 0.96)
-                time.sleep(0.5)
+                self.utils.coordinates(width=0.5, height=0.6)
 
-                is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
-                if is_outdoors1 is True:
-                    time.sleep(0.5)
-                    self.utils.coordinates(width=0.3, height=0.2)
+    # 火烧赤壁
+    def ScarredCliff(self):
+        outdoors = self.tap_by_outdoors()
+        if outdoors is True:
+            self.utils.coordinates(width=0.3, height=0.5)
+            # 需要添加检验是否可以执行扫荡
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.9, height=0.7)
 
-                    time.sleep(0.5)
-                    self.utils.coordinates(width=0.55, height=0.93)
-                    time.sleep(0.5)
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.5, height=0.65)
+
+
+    def	Dungeon(self):
+
+        # 判断当前是否在野外页面
+        is_outdoors1 = self.tap_by_outdoors()
+        if is_outdoors1 is True:
+            # 点击副本入口
+            self.utils.coordinates(width=0.3, height=0.2)
+            time.sleep(0.5)
+
+            # 循环4个类型的副本
+            for i in range(4):
+                is_Dungeon = self.utils.get_snapshot(file_path="../page_png/Dungeon.png",
+                                                              compare=True, threshold=0.5)
+                if is_Dungeon is True:
+                    # 0锦囊、1装备、2经验、3银币
+                    if i == 0:
+                        self.utils.coordinates(width=0.43, height=0.94)
+                        time.sleep(0.5)
+                    elif i == 1:
+                        self.utils.coordinates(width=0.58, height=0.94)
+                    elif i == 2:
+                        self.utils.coordinates(width=0.73, height=0.94)
+                    elif i == 3:
+                        self.utils.coordinates(width=0.88, height=0.94)
+
 
                     # 循环扫荡3次
-                    for i in range(6):
+                    for i in range(4):
                         time.sleep(0.5)
                         self.utils.coordinates(width=0.85, height=0.45)
 
-                        outdoors = self.utils.get_snapshot(file_path="../page_png/fuben_saodang_tishi.png", compare=True, threshold=0.5)
-                        if outdoors is True:
-                            time.sleep(0.5)
+                        fuben_saodang_tishi = self.utils.get_snapshot(file_path="../page_png/fuben_saodang_tishi.png",
+                                                                      compare=True, threshold=0.5)
+                        if fuben_saodang_tishi is True:
                             self.utils.coordinates(width=0.7, height=0.60)
                         time.sleep(0.5)
                         # self.tap_by_percent()
-                        self.utils.coordinates(width=0.07, height=0.96)
+                        self.utils.coordinates(width=0.2, height=0.96)
 
-        elif is_home is False:
-            print("副本页面不匹配")
-        else:
-            print("未知错误")
+    # 野外
+    def Page_OutDoors(self):
+        # 赤壁
+        # self.ScarredCliff()
+        # 副本
+        # self.Dungeon()
+        # self.JingZhou()
+
+        for i in range(10):
+            self.utils.coordinates(width=0.2, height=0.96)
+
 

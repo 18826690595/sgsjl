@@ -26,7 +26,7 @@ class Tap_By_Chat:
 
             # 聊天输入框
             self.utils.coordinates(width=0.3, height=0.9)
-            time.sleep(1)
+            time.sleep(0.5)
             # 输入文本
             self.utils.coordinates(width=0.3, height=0.9, input_text=text, press_keycode=66)
             # self.driver.press_keycode(66)  # 66是回车键的keycode

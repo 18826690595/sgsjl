@@ -318,66 +318,18 @@ class Utils():
                 print("⚠️ 错误: driver未初始化")
                 return False
     
-            # 使用缓存的窗口尺寸，避免重复获取
-            if not hasattr(self, '_cached_window_size'):
-                self._cached_window_size = self.window_size
+            # 直接使用缓存的窗口尺寸，避免重复获取
+            x = self.window_size['width'] * width
+            y = self.window_size['height'] * height
             
-            x = self._cached_window_size['width'] * width
-            y = self._cached_window_size['height'] * height
-            
-            # 添加点击操作的重试机制
-            max_retries = 3
-            for attempt in range(max_retries):
-                try:
-                    # 检查连接状态
-                    try:
-                        self.driver.current_activity  # 简单检查连接状态
-                    except Exception as conn_error:
-                        print(f"⚠️ 连接检查失败: {str(conn_error)}")
-                        raise conn_error
-                    
-                    # 直接尝试点击操作
-                    self.driver.tap([(x, y)], 10)
-                    print(f"📍 已通过坐标 ({x}, {y})点击")
-                    break
-                except Exception as e:
-                    error_msg = str(e)
-                    if "socket hang up" in error_msg or "instrumentation process is not running" in error_msg:
-                        print(f"⚠️ Appium服务异常 (尝试 {attempt + 1}/{max_retries}): {error_msg}")
-                        if attempt == max_retries - 1:
-                            return False
-                            
-                        # 更健壮的重连逻辑
-                        try:
-                            capabilities = getattr(self.driver, '_caps', {})
-                            server_url = getattr(self.driver, 'command_executor', None)
-                            if not server_url:
-                                print("❌ 无法获取Appium服务器URL")
-                                return False
-                                
-                            # 确保先退出旧会话
-                            try:
-                                self.driver.quit()
-                            except:
-                                pass
-                                
-                            # 创建新的driver连接
-                            self.driver = webdriver.Remote(
-                                command_executor=str(server_url),
-                                options=UiAutomator2Options().load_capabilities(capabilities)
-                            )
-                            print("🔄 已重新建立Appium连接")
-                            time.sleep(3)  # 增加等待时间
-                        except Exception as restart_error:
-                            print(f"❌ 恢复连接失败: {str(restart_error)}")
-                            return False
-                    else:
-                        print(f"❌ 坐标点击失败: {error_msg}")
-                        return False
-                    time.sleep(1)  # 重试间隔
+            # 简化重试逻辑
+            try:
+                self.driver.tap([(x, y)], 50)  # 减少点击持续时间
+                print(f"📍 已通过坐标 ({x}, {y})点击")
+            except Exception as e:
+                print(f"❌ 坐标点击失败: {str(e)}")
+                return False
     
-            time.sleep(0.5)
-            
             if input_text is not None and press_keycode is not None:
                 try:
                     self.driver.execute_script('mobile: type', {'text': input_text})
@@ -406,7 +358,6 @@ class Utils():
                     return True
                 elif is_home is False:
                     self.coordinates(width=x_percent, height=y_percent)
-                    time.sleep(0.5)
                 else:
                     print("未知错误")
             return False
