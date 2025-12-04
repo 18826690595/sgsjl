@@ -15,8 +15,13 @@ class Run():
         self.utils = Utils(self.driver)
 
     def get_run(self):
-        self.utils.get_snapshot(file_path="./page_png/Dungeon.png")
-
+        try:
+            # self.utils.get_snapshot(file_path="./page_png/Dungeon.png")
+            self.utils.coordinates(width=0.2, height=0.96)
+        except Exception as e:
+            print(e)
+        finally:
+            self.base_app
 
 
 if __name__ == "__main__":

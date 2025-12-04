@@ -324,7 +324,7 @@ class Utils():
             
             # 简化重试逻辑
             try:
-                self.driver.tap([(x, y)], 50)  # 减少点击持续时间
+                self.driver.tap([(x, y)], 0)  # 减少点击持续时间
                 print(f"📍 已通过坐标 ({x}, {y})点击")
             except Exception as e:
                 print(f"❌ 坐标点击失败: {str(e)}")
