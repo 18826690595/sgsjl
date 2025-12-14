@@ -11,7 +11,7 @@ class Tap_By_Trials_Tower:
 
 
     # 斗塔
-    def Page_Trials_Tower(self, duration=300):
+    def Page_Trials_Tower(self):
         # window_size = self.driver.get_window_size()
         # 初始化点击主城
         is_home = self.utils.Page_Percent(5)

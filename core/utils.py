@@ -209,6 +209,88 @@ class Utils():
 
 
 
+    def click_icon(self, icon_path, threshold=0.5, duration=0):
+        """
+        识别并点击屏幕上的图标
+        :param icon_path: 图标模板图片路径
+        :param threshold: 匹配阈值 (0-1)
+        :param duration: 点击持续时间(毫秒)
+        :return: 是否找到并点击了图标
+        """
+        try:
+            # 获取屏幕截图
+            screenshot = self.driver.get_screenshot_as_png()
+            screenshot_np = np.frombuffer(screenshot, np.uint8)
+            screen = cv2.imdecode(screenshot_np, cv2.IMREAD_COLOR)
+            
+            # 读取图标模板
+            template = cv2.imread(icon_path, cv2.IMREAD_COLOR)
+            if template is None:
+                print(f"❌ 无法加载图标模板: {icon_path}")
+                return False
+                
+            # 图像预处理 - 增强对比度
+            screen_gray = cv2.cvtColor(screen, cv2.COLOR_BGR2GRAY)
+            template_gray = cv2.cvtColor(template, cv2.COLOR_BGR2GRAY)
+            
+            # 直方图均衡化
+            screen_gray = cv2.equalizeHist(screen_gray)
+            template_gray = cv2.equalizeHist(template_gray)
+            
+            # 多尺度模板匹配
+            found = None
+            for scale in np.linspace(0.8, 1.2, 5):  # 在80%-120%范围内缩放
+                resized = cv2.resize(template_gray, 
+                                    (int(template.shape[1] * scale), 
+                                     int(template.shape[0] * scale)))
+                
+                # 确保模板不大于屏幕图像
+                if resized.shape[0] > screen_gray.shape[0] or resized.shape[1] > screen_gray.shape[1]:
+                    continue
+                    
+                # 模板匹配
+                result = cv2.matchTemplate(screen_gray, resized, cv2.TM_CCOEFF_NORMED)
+                min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+                
+                # 更新最佳匹配
+                if found is None or max_val > found[0]:
+                    found = (max_val, max_loc, scale)
+            
+            if found is None or found[0] < threshold:
+                # 修复格式说明符错误
+                print(f"❌ 未找到匹配的图标 (最高置信度: {found[0] if found else 0:.2f})")
+                return False
+                
+            max_val, max_loc, scale = found
+            
+            # 计算图标中心位置 (考虑缩放因子)
+            h, w = template.shape[:2]
+            scaled_w = int(w * scale)
+            scaled_h = int(h * scale)
+            center_x = max_loc[0] + scaled_w // 2
+            center_y = max_loc[1] + scaled_h // 2
+            
+            # 二次验证 - 检查匹配区域周围
+            roi = screen_gray[max_loc[1]:max_loc[1]+scaled_h, max_loc[0]:max_loc[0]+scaled_w]
+            _, binary = cv2.threshold(roi, 0, 255, cv2.THRESH_BINARY | cv2.THRESH_OTSU)
+            white_pixels = np.sum(binary == 255)
+            black_pixels = np.sum(binary == 0)
+            
+            # 如果匹配区域大部分是空白或全黑，可能是误匹配
+            if white_pixels > 0.9 * (scaled_w * scaled_h) or black_pixels > 0.9 * (scaled_w * scaled_h):
+                print(f"⚠️ 匹配区域异常 (可能误匹配)")
+                return False
+                
+            # 点击图标
+            self.driver.tap([(center_x, center_y)], duration)
+            print(f"✅ 找到并点击图标 (置信度: {max_val:.2f}, 缩放: {scale:.2f}) 位置: ({center_x}, {center_y})")
+            return True
+                
+        except Exception as e:
+            print(f"❌ 图标识别失败: {str(e)}")
+            return False
+
+
     def get_snapshot(self, file_path=None, compare=None, threshold=0.7, page_name="test"):
         max_retries = 3
         retry_delay = 1  # 秒
@@ -348,18 +430,22 @@ class Utils():
 
 
     # 返回点击主城
-    def Page_Percent(self, num=5, x_percent=0.07, y_percent=0.96):
+    def Page_Percent(self, num=10, x_percent=0.07, y_percent=0.96):
         """按屏幕百分比点击"""
         try:
             for i in range(num):
+                if i == 0:
+                    self.coordinates(width=0.035, height=0.95)
                 is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True, page_name="主城")
                 if is_home is True:
                     # 如果在首页则返回True
                     return True
-                elif is_home is False:
-                    self.coordinates(width=x_percent, height=y_percent)
+                elif i == 5 or i == 9:
+                    self.coordinates(width=0.835, height=0.345)
+                elif i == 3:
+                    self.coordinates(width=0.92, height=0.2)
                 else:
-                    print("未知错误")
+                    self.coordinates(width=x_percent, height=y_percent)
             return False
         except Exception as e:
             print(e)

@@ -9,6 +9,7 @@ class Tap_By_OutLogin:
         self.utils = Utils(self.driver)
 
 
+
     # 退出登录
     def Page_Out_Login(self):
         """按屏幕百分比点击"""
@@ -19,17 +20,14 @@ class Tap_By_OutLogin:
             # 点击头像
             self.utils.coordinates(width=0.07, height = 0.05)
             time.sleep(1)
-            is_Settings = self.utils.get_snapshot(file_path="../page_png/Settings.png", compare=True, threshold=0.5)
-            if is_Settings is True:
-                # 点击设置
-                self.utils.coordinates(width=0.92, height=0.85)
-                time.sleep(1)
+            # is_Settings = self.utils.get_snapshot(file_path="../page_png/Settings.png", compare=True, threshold=0.5)
+            # if is_Settings is True:
+            # 点击设置
+            self.utils.coordinates(width=0.92, height=0.85)
+            time.sleep(1)
 
-                # 点击退出登录
-                self.utils.coordinates(width=0.5, height=0.63)
-                time.sleep(1)
-            else:
-                print("未找到设置按钮")
+            # 点击退出登录
+            self.utils.coordinates(width=0.5, height=0.63)
         else:
             print("退出登录流程异常")
             return False

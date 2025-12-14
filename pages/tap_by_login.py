@@ -78,11 +78,14 @@ class Tap_By_Login:
                 time.sleep(0.5)
                 # 点击进入游戏
                 self.utils.coordinates(width=0.5, height=0.8)
-                time.sleep(8)
 
-                # 关闭弹窗(需要增加判断是否出现弹窗)
-                self.utils.coordinates(width=0.85, height=0.28)
-                self.utils.coordinates(width=0.92, height=0.2)
+
+            for i in range(12):
+                tanchuang2 = self.utils.get_snapshot(file_path="../page_png/tanchuang2.png", compare=True)
+                if tanchuang2 is True:
+                    # 关闭弹窗(需要增加判断是否出现弹窗)
+                    self.utils.coordinates(width=0.85, height=0.28)
+                    self.utils.coordinates(width=0.92, height=0.2)
 
 
 

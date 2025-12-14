@@ -56,5 +56,4 @@ class AppAutoManager:
                 print(f"\n⚠️ 关闭驱动时出错: {str(e)}")
 
 
-app = AppAutoManager()
-app.appium_init()
+
