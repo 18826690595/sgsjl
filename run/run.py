@@ -22,8 +22,6 @@ class Run():
     def __init__(self):
         self.base_app = AppAutoManager()
         self.driver = self.base_app.appium_init()
-        # self.utils = Utils(self.driver)
-
         # 实例化页面组件
         self.tap_by_login = Tap_By_Login(self.driver)
         self.tap_by_vip = Tap_By_VIP(self.driver)
@@ -39,30 +37,32 @@ class Run():
         self.tap_by_chat = Tap_By_Chat(self.driver)
         self.tap_by_campaign = Tap_By_Campaign(self.driver)
         self.tap_by_arena = Tap_By_Arena(self.driver)
-        self.tap_by_activity = Tap_By_Activity(self.driver)
+        # self.tap_by_activity = Tap_By_Activity(self.driver)
 
     def get_run(self):
         """主运行方法"""
         try:
-            for i in range(202508002, 202508029):
-                # self.tap_by_login.Page_Login(username=i, password="python")
-                # self.tap_by_vip.Page_Vip()
-                # self.tap_by_good_friend.Page_good_friend()
-                # self.tap_by_chat.Page_Chat()
-                # self.tap_by_arena.Page_Arena()
-                # self.tap_by_trials_tower.Page_Trials_Tower()
-                # self.tap_by_recruit.Page_Recruit()
-                # self.tap_by_store.Page_Store()
-                # self.tap_by_legion.Page_Legion()
+            for i in range(202508001, 202508029):
+                self.tap_by_login.Page_Login(username=i, password="python")
+                self.tap_by_vip.Page_Vip()
+                self.tap_by_good_friend.Page_good_friend()
+                self.tap_by_chat.Page_Chat()
+                self.tap_by_arena.Page_Arena()
+                self.tap_by_trials_tower.Page_Trials_Tower()
+                self.tap_by_recruit.Page_Recruit()
+                self.tap_by_store.Page_Store()
+                self.tap_by_legion.Page_Legion()
                 self.tap_by_outdoors.Page_OutDoors()
-                # self.tap_by_campaign.Page_Campaign()
-                # self.tap_by_task.Page_Task()
-                #
-                # self.tap_by_outlogin.Page_Out_Login()
+                self.tap_by_campaign.Page_Campaign()
+                self.tap_by_task.Page_Task()
 
-                break
-                # 点击主城
-                # self.tap_by_percent.Page_Percent()
+                # 未开发
+                # self.tap_by_activity.Page_Activity()
+
+                #
+                self.tap_by_outlogin.Page_Out_Login()
+
+                # break
 
         except Exception as e:
             print(e)

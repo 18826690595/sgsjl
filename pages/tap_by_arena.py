@@ -10,7 +10,7 @@ class Tap_By_Arena:
         self.utils = Utils(self.driver)
 
     # 竞技场
-    def Page_Arena(self, duration=300):
+    def Page_Arena(self):
         # 点击主城
         self.utils.Page_Percent(5)
         # 判断是否在首页

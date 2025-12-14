@@ -22,11 +22,14 @@ class Tap_By_OutDoors:
                 return True
             else:
                 self.utils.coordinates(width=0.07, height=0.96)
+                time.sleep(0.5)
 
         # 保底校验在野外页面
         is_home = self.utils.Page_Percent(5)
         if is_home is True:
+            print("============")
             self.utils.coordinates(width=0.76, height=0.94)
+            time.sleep(0.5)
             is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
             if is_outdoors1 is True:
                 return True
@@ -121,24 +124,79 @@ class Tap_By_OutDoors:
                     for i in range(4):
                         time.sleep(0.5)
                         self.utils.coordinates(width=0.85, height=0.45)
-
+                        time.sleep(0.5)
                         fuben_saodang_tishi = self.utils.get_snapshot(file_path="../page_png/fuben_saodang_tishi.png",
                                                                       compare=True, threshold=0.5)
                         if fuben_saodang_tishi is True:
                             self.utils.coordinates(width=0.7, height=0.60)
                         time.sleep(0.5)
-                        # self.tap_by_percent()
                         self.utils.coordinates(width=0.2, height=0.96)
+
+    # 攻城略地税收
+    # 云梦泽
+    def Yunmengze(self):
+        is_outdoors1 = self.tap_by_outdoors()
+        if is_outdoors1 is True:
+            self.utils.coordinates(width=0.75, height=0.8)
+            time.sleep(0.5)
+
+            for i in range(2):
+                # 点击野怪猎人
+                self.utils.coordinates(width=0.8, height=0.18)
+                time.sleep(1)
+                # 图像识别点击野怪猎人
+                self.utils.click_icon(icon_path="../page_png/yeguai1.png")
+                time.sleep(0.5)
+                # 点击挑战
+                self.utils.coordinates(width=0.5, height=0.73)
+                time.sleep(0.5)
+                # 点击出战
+                self.utils.coordinates(width=0.7, height=0.85)
+                time.sleep(1.5)
+                # 点击跳过战斗
+                self.utils.coordinates(width=0.95, height=0.84)
+                time.sleep(1.5)
+                # 点击返回玩法
+                self.utils.coordinates(width=0.75, height=0.88)
+
+
+
+
+            for i in range(2):
+                # 点击野怪驻军
+                self.utils.coordinates(width=0.8, height=0.21)
+                time.sleep(1)
+                # 图像识别点击野怪驻军
+                self.utils.click_icon(icon_path="../page_png/yeguai1.png")
+                time.sleep(0.5)
+                # 点击挑战
+                self.utils.coordinates(width=0.5, height=0.73)
+                time.sleep(0.5)
+                # 点击出战
+                self.utils.coordinates(width=0.7, height=0.85)
+                time.sleep(1.5)
+                # 点击跳过战斗
+                self.utils.coordinates(width=0.95, height=0.84)
+                time.sleep(1.5)
+                # 点击返回玩法
+                self.utils.coordinates(width=0.75, height=0.88)
+
+    # 七星遗迹
+    # 万象古镜
+    # 九州
+    # 单骑救主
+    # 博古通今
+
+
 
     # 野外
     def Page_OutDoors(self):
         # 赤壁
-        # self.ScarredCliff()
-        # 副本
-        # self.Dungeon()
+        self.ScarredCliff()
+        # # 副本
+        self.Dungeon()
         # self.JingZhou()
+        # self.Yunmengze()
 
-        for i in range(10):
-            self.utils.coordinates(width=0.2, height=0.96)
 
 

@@ -13,7 +13,7 @@ class Tap_By_Task:
 
 
     # 完成任务
-    def Page_Task(self, duration=300):
+    def Page_Task(self):
         # 初始化点击主城
         is_home = self.utils.Page_Percent(5)
         if is_home is True:

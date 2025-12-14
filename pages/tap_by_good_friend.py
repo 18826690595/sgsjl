@@ -28,10 +28,19 @@ class Tap_By_Good_Friend:
             self.utils.coordinates(width=0.83, height=0.85)
             time.sleep(1)
 
-            return True
+            # 好友切磋
+            self.utils.coordinates(width=0.12, height=0.22)
+            time.sleep(0.5)
+            self.utils.click_icon("../page_png/PK_icon.png")
+            # 点击出战
+            time.sleep(1)
+            self.utils.coordinates(width=0.66, height=0.85)
+
+            time.sleep(1.3)
+            self.utils.coordinates(width=0.95, height=0.84)
+
+            time.sleep(2)
+            self.utils.coordinates(width=0.25, height=0.87)
+
         else:
             print("好友流程异常跳过")
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_Good_Friend()
-    test.Page_good_friend()

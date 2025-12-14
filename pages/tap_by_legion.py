@@ -11,7 +11,7 @@ class Tap_By_Legion:
 
 
     # 军团
-    def Page_Legion(self, duration=300):
+    def Page_Legion(self):
         # 初始化点击主城
         is_home = self.utils.Page_Percent(5)
         if is_home is True:
@@ -43,15 +43,11 @@ class Tap_By_Legion:
             # 点击军团副本入口
             self.utils.coordinates(width=0.52, height=0.55)
 
-            # x = window_size['width'] * 0.52
-            # y = window_size['height'] * 0.55
-            # self.driver.tap([(x, y)], duration)
-            # print(f"📍 已通过坐标 ({x:.0f}, {y:.0f}) 点击军团副本入口")
 
             for i in range(2):
                 # 军团副本战斗
                 self.utils.coordinates(width=0.5, height=0.88)
-
+                time.sleep(0.5)
                 self.utils.coordinates(width=0.7, height=0.85)
 
                 time.sleep(1.3)
@@ -61,19 +57,16 @@ class Tap_By_Legion:
 
             # 点击返回
             self.utils.coordinates(width=0.07, height=0.96)
+            time.sleep(0.5)
+            # 点击炼宝阁入口
+            self.utils.coordinates(width=0.82, height=0.18)
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.43, height=0.95)
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.5, height=0.88)
 
-            # 点击盟主挑战切磋
-            time.sleep(1)
-            self.utils.coordinates(width=0.15, height=0.7)
 
-            self.utils.coordinates(width=0.60, height=0.86)
 
-            time.sleep(1)
-            self.utils.coordinates(width=0.7, height=0.85)
 
-            time.sleep(1.3)
-            self.utils.coordinates(width=0.95, height=0.84)
 
-            time.sleep(1.5)
-            self.utils.coordinates(width=0.25, height=0.88)
 

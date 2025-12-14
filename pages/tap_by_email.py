@@ -12,7 +12,7 @@ class Tap_By_Email:
 
 
     # 邮件
-    def page_mail(self, duration=300):
+    def page_mail(self):
         # 初始化点击主城
         self.utils.Page_Percent(5)
         page_name = "./page_png/home.png"
