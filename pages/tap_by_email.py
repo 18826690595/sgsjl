@@ -20,8 +20,3 @@ class Tap_By_Email:
         if is_home is True:
             pass
 
-
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_Email()
-    test.page_mail()

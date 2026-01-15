@@ -16,6 +16,7 @@ from pages.tap_by_store import Tap_By_Store
 from pages.tap_by_task import Tap_By_Task
 from pages.tap_by_trials_tower import Tap_By_Trials_Tower
 from pages.tap_by_vip import Tap_By_VIP
+from pages.tap_by_zhuzhan import Tap_By_ZhuZhan
 
 
 class Run():
@@ -37,10 +38,12 @@ class Run():
         self.tap_by_chat = Tap_By_Chat(self.driver)
         self.tap_by_campaign = Tap_By_Campaign(self.driver)
         self.tap_by_arena = Tap_By_Arena(self.driver)
-        # self.tap_by_activity = Tap_By_Activity(self.driver)
+        self.Tap_By_ZhuZhan = Tap_By_ZhuZhan(self.driver)
+        # self.tap_by_activity = Tap_By_Activity(s·elf.driver)
 
     def get_run(self):
         """主运行方法"""
+        start_time = time.time()  # 记录开始时间
         try:
             for i in range(202508001, 202508029):
                 self.tap_by_login.Page_Login(username=i, password="python")
@@ -55,6 +58,8 @@ class Run():
                 self.tap_by_outdoors.Page_OutDoors()
                 self.tap_by_campaign.Page_Campaign()
                 self.tap_by_task.Page_Task()
+                # 助战
+                self.Tap_By_ZhuZhan.zhuzhan_all()
 
                 # 未开发
                 # self.tap_by_activity.Page_Activity()
@@ -68,6 +73,14 @@ class Run():
             print(e)
         finally:
             self.driver.quit()
+            end_time = time.time()  # 记录结束时间
+            elapsed_time = end_time - start_time  # 计算总耗时(秒)
+            
+            # 转换为时分秒格式
+            hours = int(elapsed_time // 3600)
+            minutes = int((elapsed_time % 3600) // 60)
+            seconds = int(elapsed_time % 60)
+            print(f"方法执行耗时: {hours}小时 {minutes}分钟 {seconds}秒")
 
 
 if __name__ == "__main__":

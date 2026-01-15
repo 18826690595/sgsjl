@@ -37,8 +37,3 @@ class Tap_By_VIP():
 
 
 
-
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_VIP()
-    test.Page_Vip()

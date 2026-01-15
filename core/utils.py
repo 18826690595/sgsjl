@@ -394,6 +394,37 @@ class Utils():
                     pass
 
 
+    def swipe_screen(self, start_width, start_height, end_width, end_height, duration=500, repeat=1):
+        """
+        滑动屏幕操作
+        :param start_width: 起点宽度百分比 (0-1)
+        :param start_height: 起点高度百分比 (0-1)
+        :param end_width: 终点宽度百分比 (0-1)
+        :param end_height: 终点高度百分比 (0-1)
+        :param duration: 滑动持续时间(毫秒)
+        :param repeat: 重复滑动次数
+        :return: 是否执行成功
+        """
+        try:
+            if not self.driver:
+                print("⚠️ 错误: driver未初始化")
+                return False
+
+            # 计算实际坐标
+            start_x = self.window_size['width'] * start_width
+            start_y = self.window_size['height'] * start_height
+            end_x = self.window_size['width'] * end_width
+            end_y = self.window_size['height'] * end_height
+
+            for i in range(repeat):
+                self.driver.swipe(start_x, start_y, end_x, end_y, duration)
+                print(f"🔄 已从 ({start_x:.0f}, {start_y:.0f}) 滑动到 ({end_x:.0f}, {end_y:.0f}) [第{i+1}次]")
+
+            return True
+        except Exception as e:
+            print(f"❌ 滑动操作失败: {str(e)}")
+            return False
+
     def coordinates(self, width, height, input_text=None, press_keycode=None):
         try:
             if not self.driver:
