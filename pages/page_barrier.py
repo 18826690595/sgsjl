@@ -3,7 +3,6 @@ import time
 from core.utils import Utils
 
 
-class Page_Barrier():
 
     def __init__(self, driver):
         self.driver = driver

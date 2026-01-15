@@ -23,6 +23,8 @@ class Run():
     def __init__(self):
         self.base_app = AppAutoManager()
         self.driver = self.base_app.appium_init()
+        # self.utils = Utils(self.driver)
+
         # 实例化页面组件
         self.tap_by_login = Tap_By_Login(self.driver)
         self.tap_by_vip = Tap_By_VIP(self.driver)
@@ -75,7 +77,7 @@ class Run():
             self.driver.quit()
             end_time = time.time()  # 记录结束时间
             elapsed_time = end_time - start_time  # 计算总耗时(秒)
-            
+
             # 转换为时分秒格式
             hours = int(elapsed_time // 3600)
             minutes = int((elapsed_time % 3600) // 60)
