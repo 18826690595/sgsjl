@@ -18,14 +18,16 @@ class Tap_By_Recruit:
             self.utils.coordinates(width=0.6, height = 0.5)
 
             # 获取招募页面截图
-
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.8, height=0.67)
             # 点击招募
             time.sleep(0.5)
             self.utils.coordinates(width=0.23, height = 0.72)
-            is_zhaomu_chenggong = self.utils.get_snapshot(file_path="../page_png/zhaomu_chenggong.png", compare=True, page_name="招募成功")
-            if is_zhaomu_chenggong is True:
-                self.utils.coordinates(width=0.1, height = 0.87)
-                return True
+            # 去除判断招募成功
+            # is_zhaomu_chenggong = self.utils.get_snapshot(file_path="../page_png/zhaomu_chenggong.png", compare=True, page_name="招募成功")
+            # if is_zhaomu_chenggong is True:
+            #     self.utils.coordinates(width=0.1, height = 0.87)
+            #     return True
             # 返回首页
             self.utils.Page_Percent(20)
         else:

@@ -76,10 +76,25 @@ class Tap_By_OutDoors:
         outdoors = self.tap_by_outdoors()
         if outdoors is True:
             # 点击激战虎牢
-            self.utils.coordinates(width=0.5, height=0.6)
+            self.utils.coordinates(width=0.38, height=0.7)
             # 点击领取排位奖励(需要判断是否有弹窗，调用图像识别太慢了，直接点击两次)
+            for i in range(3):
+                self.utils.coordinates(width=0.7, height=0.3)
+                time.sleep(0.5)
+
+            # 挑战两次
             for i in range(2):
-                self.utils.coordinates(width=0.5, height=0.6)
+                for y in range(2):
+                    self.utils.coordinates(width=0.5, height=0.95)
+                time.sleep(0.5)
+                self.utils.coordinates(width=0.6, height=0.88)
+                time.sleep(1.3)
+                self.utils.coordinates(width=0.95, height=0.84)
+                time.sleep(1.5)
+                self.utils.coordinates(width=0.7, height=0.88)
+                # 第二次执行不需要等待
+                if i == 0:
+                    time.sleep(1)
 
     # 火烧赤壁
     def ScarredCliff(self):
@@ -180,12 +195,42 @@ class Tap_By_OutDoors:
                 time.sleep(1.5)
                 # 点击返回玩法
                 self.utils.coordinates(width=0.75, height=0.88)
+                time.sleep(1)
 
     # 七星遗迹
     # 万象古镜
     # 九州
     # 单骑救主
+    def zhaoyun(self):
+        self.utils.Page_Percent()
+
+
     # 博古通今
+    def bogutongjin(self):
+        self.tap_by_outdoors()
+        self.utils.swipe_screen(0.5, 0.8, 0.5, 0.2)
+        time.sleep(1.3)
+        self.utils.coordinates(width=0.4, height=0.8)
+        time.sleep(0.5)
+        is_bogutongjin = self.utils.get_snapshot(file_path="../page_png/bogutongjin.png", compare=True)
+        if is_bogutongjin is True:
+            self.utils.coordinates(width=0.5, height=0.85)
+            time.sleep(0.5)
+            for i in range(3):
+                self.utils.coordinates(width=0.75, height=0.95)
+
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.93, height=0.2)
+            time.sleep(0.5)
+            for i in range(3):
+                self.utils.coordinates(width=0.85, height=0.42)
+                time.sleep(0.5)
+
+
+        else:
+            print("未进入博古通今页面，跳过流程")
+            return False
+
 
 
 
@@ -193,8 +238,13 @@ class Tap_By_OutDoors:
     def Page_OutDoors(self):
         # 赤壁
         self.ScarredCliff()
-        # # 副本
+        # 副本
         self.Dungeon()
+        # 虎牢
+        self.rage_at_tiger_lair()
+        # 博古通今
+        self.bogutongjin()
+        # self.zhaoyun()
         # self.JingZhou()
         # self.Yunmengze()
 

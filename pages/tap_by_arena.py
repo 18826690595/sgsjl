@@ -33,6 +33,9 @@ class Tap_By_Arena:
                 time.sleep(1.5)
                 self.utils.coordinates(width=0.7, height=0.88)
 
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.7, height=0.88)
+
         else:
             print("竞技场流程异常")
 

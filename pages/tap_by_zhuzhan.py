@@ -25,7 +25,13 @@ class Tap_By_ZhuZhan():
                 # 点击礼包
                 self.utils.coordinates(width=0.93, height=0.25)
                 time.sleep(0.5)
-                self.utils.coordinates(width=0.86, height=0.38)
+                for i in range(2):
+                    self.utils.coordinates(width=0.86, height=0.38)
+                    time.sleep(0.5)
+                for i in range(2):
+                    self.utils.coordinates(width=0.86, height=0.52)
+                    time.sleep(0.5)
+
             elif is_home is False:
                 return False
 
@@ -61,8 +67,9 @@ class Tap_By_ZhuZhan():
                                 continue
                             # 点击游历
                             self.utils.coordinates(width=0.5, height=0.84)
-                            time.sleep(1)
+                            time.sleep(1.5)
 
+                        time.sleep(1)
                         self.utils.coordinates(width=0.5, height=0.73)
                         time.sleep(1)
                         self.utils.coordinates(width=0.6, height=0.88)
