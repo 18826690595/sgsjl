@@ -14,7 +14,7 @@ class Tap_By_ZhuZhan():
         """按屏幕百分比点击"""
         try:
             # 点击主城
-            is_home = self.utils.Page_Percent(5)
+            is_home = self.utils.Page_Percent()
             if is_home is True:
                 self.utils.coordinates(width=0.4, height=0.96)
                 time.sleep(0.5)
@@ -47,7 +47,7 @@ class Tap_By_ZhuZhan():
         """按屏幕百分比点击"""
         try:
             # 点击主城
-            is_home = self.utils.Page_Percent(5)
+            is_home = self.utils.Page_Percent()
             if is_home is True:
                 self.utils.coordinates(width=0.4, height=0.96)
                 time.sleep(0.5)
@@ -60,11 +60,10 @@ class Tap_By_ZhuZhan():
                 if is_beauty is True:
                     self.utils.coordinates(width=0.4, height=0.96)
                     time.sleep(0.5)
+
+                    # 循环游历没点12次挑战一次副本
                     for a in range(3):
                         for i in range(13):
-                            # 跳过最后一次
-                            if a == 2 and i == 12:
-                                continue
                             # 点击游历
                             self.utils.coordinates(width=0.5, height=0.84)
                             time.sleep(1.5)

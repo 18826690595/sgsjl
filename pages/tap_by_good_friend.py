@@ -14,7 +14,7 @@ class Tap_By_Good_Friend:
     def Page_good_friend(self):
         """按屏幕百分比点击"""
         # 点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击好友入口
             self.utils.coordinates(width=0.07, height=0.78)

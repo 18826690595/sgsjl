@@ -14,13 +14,13 @@ class Tap_By_Chat:
     def Page_Chat(self, text="1"):
         """按屏幕百分比点击"""
         # 点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击聊天入口
             self.utils.coordinates(width=0.07, height=0.82)
             time.sleep(1)
 
-            # 点击世界
+            # 点击世界聊天窗口
             self.utils.coordinates(width=0.07, height=0.25)
             time.sleep(1)
 
@@ -46,12 +46,8 @@ class Tap_By_Chat:
 
             # 点击英雄碎片
             self.utils.coordinates(width=0.23, height=0.36)
-            time.sleep(1)
-
             # 点击元宝
             self.utils.coordinates(width=0.8, height=0.5)
-            time.sleep(1)
-
             # 点击发布求助
             self.utils.coordinates(width=0.5, height=0.7)
             time.sleep(1)

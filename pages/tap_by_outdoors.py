@@ -25,7 +25,7 @@ class Tap_By_OutDoors:
                 time.sleep(0.5)
 
         # 保底校验在野外页面
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             print("============")
             self.utils.coordinates(width=0.76, height=0.94)
@@ -136,16 +136,23 @@ class Tap_By_OutDoors:
 
 
                     # 循环扫荡3次
-                    for i in range(4):
+                    for j in range(4):
                         time.sleep(0.5)
                         self.utils.coordinates(width=0.85, height=0.45)
                         time.sleep(0.5)
+
                         fuben_saodang_tishi = self.utils.get_snapshot(file_path="../page_png/fuben_saodang_tishi.png",
                                                                       compare=True, threshold=0.5)
                         if fuben_saodang_tishi is True:
-                            self.utils.coordinates(width=0.7, height=0.60)
-                        time.sleep(0.5)
-                        self.utils.coordinates(width=0.2, height=0.96)
+                            # # 点击元宝扫荡
+                            # self.utils.coordinates(width=0.7, height=0.60)
+
+                            # 只扫荡免费次数
+                            self.utils.coordinates(width=0.2, height=0.96)
+                            break
+                        else:
+                            time.sleep(0.5)
+                            self.utils.coordinates(width=0.2, height=0.96)
 
     # 攻城略地税收
     # 云梦泽

@@ -139,7 +139,7 @@ class Tap_By_Activity:
 
     # 活动
     def Page_Activity(self):
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 税收
             self.utils.coordinates(width=0.55, height=0.05)
@@ -147,7 +147,7 @@ class Tap_By_Activity:
             self.utils.coordinates(width=0.2, height=0.71)
             self.utils.coordinates(width=0.5, height=0.71)
             self.utils.coordinates(width=0.8, height=0.71)
-            self.utils.Page_Percent(5)
+            self.utils.Page_Percent()
             # 遍历点击活动区域
             activity_page = [
                 "../page_png/armoury_page.png", # 天降鸿运

@@ -13,7 +13,7 @@ class Tap_By_Legion:
     # 军团
     def Page_Legion(self):
         # 初始化点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击军团入口
             self.utils.coordinates(width=0.58, height=0.96)

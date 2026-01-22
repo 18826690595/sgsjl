@@ -26,7 +26,7 @@ class AppAutoManager:
                 caps.set_capability("appium:appActivity", ".MainActivity")
                 caps.set_capability("appium:automationName", "UiAutomator2")
                 caps.set_capability("appium:noReset", True)
-                caps.set_capability("appium:newCommandTimeout", 1500)  # 新增20分钟超时设置
+                caps.set_capability("appium:newCommandTimeout", 1800)  # 新增20分钟超时设置
                 caps.set_capability("appium:udid", "127.0.0.1:7555")  # 明确指定UDID
                 caps.set_capability("appium:ensureWebviewsHavePages", True)
                 caps.set_capability("appium:nativeWebScreenshot", True)

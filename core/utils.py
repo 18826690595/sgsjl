@@ -471,8 +471,11 @@ class Utils():
                 if is_home is True:
                     # 如果在首页则返回True
                     return True
+                # 防止支付弹窗卡死
                 elif i == 5 or i == 9:
                     self.coordinates(width=0.835, height=0.345)
+                    self.coordinates(width=0.82, height=0.355)
+
                 elif i == 3:
                     self.coordinates(width=0.92, height=0.2)
                 else:

@@ -15,7 +15,7 @@ class Tap_By_Task:
     # 完成任务
     def Page_Task(self):
         # 初始化点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击任务入口
             time.sleep(0.5)

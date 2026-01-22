@@ -15,7 +15,7 @@ class Tap_By_OutLogin:
         """按屏幕百分比点击"""
 
         # 点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击头像
             self.utils.coordinates(width=0.07, height = 0.05)

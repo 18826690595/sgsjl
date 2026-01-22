@@ -12,7 +12,7 @@ class Tap_By_Recruit:
     # 名将招募
     def Page_Recruit(self):
         # 初始化点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击招募入口
             self.utils.coordinates(width=0.6, height = 0.5)

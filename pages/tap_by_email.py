@@ -14,7 +14,7 @@ class Tap_By_Email:
     # 邮件
     def page_mail(self):
         # 初始化点击主城
-        self.utils.Page_Percent(5)
+        self.utils.Page_Percent()
         page_name = "./page_png/home.png"
         is_home = self.utils.get_snapshot(file_path=page_name, compare=True)
         if is_home is True:

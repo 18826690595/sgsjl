@@ -12,9 +12,9 @@ class Tap_By_Arena:
     # 竞技场
     def Page_Arena(self):
         # 点击主城
-        self.utils.Page_Percent(5)
+        self.utils.Page_Percent()
         # 判断是否在首页
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 点击擂台入口
             print("点击擂台入口")

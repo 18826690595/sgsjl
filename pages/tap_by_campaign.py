@@ -14,13 +14,13 @@ class Tap_By_Campaign:
             is_zhengzhan = self.utils.get_snapshot(file_path="../page_png/zhengzhan.png", compare=True)
             if is_zhengzhan is True:
                 return True
-            self.utils.coordinates(width=0.93, height=0.96)
+            self.utils.coordinates(width=0.035, height=0.95)
             time.sleep(1)
         print("无法进入征战页面")
         return None
 
     def in_campaign_page(self):
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             # 文字识别点击征战
             page_name = "../page_png/home.png"

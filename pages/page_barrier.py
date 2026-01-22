@@ -2,7 +2,7 @@ import time
 
 from core.utils import Utils
 
-
+class PageBarrier:
 
     def __init__(self, driver):
         self.driver = driver
@@ -12,7 +12,7 @@ from core.utils import Utils
     # 推图
     def page_barrier(self):
         # 初始化点击主城
-        is_home = self.utils.Page_Percent(5)
+        is_home = self.utils.Page_Percent()
         if is_home is True:
             self.utils.coordinates(width=0.93, height=0.96)
 
