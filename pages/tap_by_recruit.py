@@ -23,6 +23,7 @@ class Tap_By_Recruit:
             # 点击招募
             time.sleep(0.5)
             self.utils.coordinates(width=0.23, height = 0.72)
+            time.sleep(0.5)
             # 去除判断招募成功
             # is_zhaomu_chenggong = self.utils.get_snapshot(file_path="../page_png/zhaomu_chenggong.png", compare=True, page_name="招募成功")
             # if is_zhaomu_chenggong is True:

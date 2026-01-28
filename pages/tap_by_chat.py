@@ -22,7 +22,7 @@ class Tap_By_Chat:
 
             # 点击世界聊天窗口
             self.utils.coordinates(width=0.07, height=0.25)
-            time.sleep(1)
+            # time.sleep(1)
 
             # 聊天输入框
             self.utils.coordinates(width=0.3, height=0.9)
@@ -38,7 +38,7 @@ class Tap_By_Chat:
 
             # 点击军团
             self.utils.coordinates(width=0.07, height=0.3)
-            time.sleep(1)
+            time.sleep(0.5)
 
             # 点击求助
             self.utils.coordinates(width=0.68, height=0.83)
@@ -50,7 +50,7 @@ class Tap_By_Chat:
             self.utils.coordinates(width=0.8, height=0.5)
             # 点击发布求助
             self.utils.coordinates(width=0.5, height=0.7)
-            time.sleep(1)
+            time.sleep(0.5)
 
             # 点击军团援助
             self.utils.coordinates(width=0.83, height=0.83)

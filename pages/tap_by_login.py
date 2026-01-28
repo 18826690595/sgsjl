@@ -90,6 +90,8 @@ class Tap_By_Login:
                     self.utils.coordinates(width=0.85, height=0.28)
                     self.utils.coordinates(width=0.92, height=0.2)
                     break
+                if i == 17:
+                    self.utils.coordinates(width=0.85, height=0.28)
 
 
 

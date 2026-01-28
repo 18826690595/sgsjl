@@ -291,7 +291,17 @@ class Utils():
             return False
 
 
-    def get_snapshot(self, file_path=None, compare=None, threshold=0.7, page_name="test"):
+    def get_snapshot(self, file_path=None, compare=None, threshold=0.7, page_name="test", region=None, overwrite=False):
+        """
+        截图功能
+        :param file_path: 保存路径
+        :param compare: 比较图片路径
+        :param threshold: 匹配阈值
+        :param page_name: 页面名称
+        :param region: 截图区域 (x, y, width, height)，None表示全屏
+        :param overwrite: 是否覆盖已存在的文件 (默认False)
+        :return: 比较结果或保存状态
+        """
         max_retries = 3
         retry_delay = 1  # 秒
         
@@ -305,12 +315,27 @@ class Utils():
                 # 添加连接重置检查
                 if screen is None or screen.size == 0:
                     raise Exception("获取的截图为空")
-                    
+                
+                # 如果指定了截图区域
+                if region is not None:
+                    x, y, w, h = region
+                    # 确保区域在屏幕范围内
+                    x = max(0, min(x, screen.shape[1]))
+                    y = max(0, min(y, screen.shape[0]))
+                    w = min(w, screen.shape[1] - x)
+                    h = min(h, screen.shape[0] - y)
+                    screen = screen[y:y+h, x:x+w]
+                
                 if file_path and compare is None:
-                    if not os.path.exists(file_path):  # 检查文件是否已存在
-                        with open(file_path, 'wb') as file:
-                            file.write(screenshot)
+                    if overwrite or not os.path.exists(file_path):  # 根据overwrite参数决定是否覆盖
+                        # 将处理后的图像保存为PNG
+                        is_success, buffer = cv2.imencode(".png", screen)
+                        if is_success:
+                            with open(file_path, 'wb') as file:
+                                file.write(buffer.tobytes())
                             print("✅ 截图已保存")
+                        else:
+                            print("❌ 截图保存失败")
                     else:
                         print("⚠️ 截图文件已存在，跳过保存")
                 else:
@@ -509,6 +534,68 @@ class Utils():
         pass
     def is_Task_Page(self):
         pass
+
+    def compare_image_region(self, template_path, region=None, threshold=0.7, page_name=None, is_click=True):
+        """
+        截取指定区域与本地图片进行比对
+        :param is_click:
+        :param page_name:
+        :param template_path: 模板图片路径
+        :param region: 截图区域 (x, y, width, height)，None表示全屏
+        :param threshold: 匹配阈值 (0-1)
+        :return: 匹配结果和置信度
+        """
+        try:
+            # 获取屏幕截图
+            screenshot = self.driver.get_screenshot_as_png()
+            screenshot_np = np.frombuffer(screenshot, np.uint8)
+            screen = cv2.imdecode(screenshot_np, cv2.IMREAD_COLOR)
+            
+            # 如果指定了截图区域
+            if region is not None:
+                x, y, w, h = region
+                # 确保区域在屏幕范围内
+                x = max(0, min(x, screen.shape[1]))
+                y = max(0, min(y, screen.shape[0]))
+                w = min(w, screen.shape[1] - x)
+                h = min(h, screen.shape[0] - y)
+                screen = screen[y:y+h, x:x+w]
+            
+            # 读取模板图片
+            template = cv2.imread(template_path, cv2.IMREAD_COLOR)
+            if template is None:
+                print(f"❌ 无法加载模板图片: {template_path}")
+                return False
+                
+            # 进行模板匹配
+            result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
+            min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+            if max_val >= threshold:
+                if is_click is True:
+                    # 计算中心位置
+                    h, w = template.shape[:2]
+                    center_x = max_loc[0] + w // 2
+                    center_y = max_loc[1] + h // 2
+
+                    # 如果指定了区域，需要调整坐标
+                    if region is not None:
+                        center_x += x
+                        center_y += y
+
+                    # 点击中心位置
+                    self.driver.tap([(center_x, center_y)], 300)
+                    print(f"✅ {page_name}图片匹配成功并点击 (置信度: {max_val:.2f}, 位置: ({center_x}, {center_y}))")
+                    return True
+
+                else:
+                    print(f"✅ {page_name}图片匹配成功 (置信度: {max_val:.2f})")
+                    return True
+            else:
+                print(f"❌ {page_name}图片匹配失败 (最高置信度: {max_val:.2f})")
+                return False
+                
+        except Exception as e:
+            print(f"❌ 图片比对失败: {str(e)}")
 
 
 

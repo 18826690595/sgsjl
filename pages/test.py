@@ -1,34 +1,37 @@
 import time
 
-from sgmjl.core.utils import Utils
+from core.utils import Utils
 
 
 class Tap_By_test:
 
     def __init__(self, driver=None):
         self.driver = driver
-        self.utils = Utils()
+        self.utils = Utils(self.driver)
 
     # 返回点击主城
-    def page_test(self, num=5, x_percent=0.07, y_percent=0.96, duration=300, desc="返回主城"):
-        """按屏幕百分比点击"""
-        try:
-            for i in range(num):
-                is_home = self.utils.get_snapshot(file_path="../page_png/home.png", compare=True)
-                if is_home is True:
-                    # 如果在首页则返回True
-                    return True
-                elif is_home is False:
-                    self.utils.coordinates(width=x_percent, height=y_percent)
-                    time.sleep(0.5)
-                else:
-                    print("未知错误")
-            return False
-        except Exception as e:
-            print(e)
-            return False
+    def test(self):
+        # self.utils.coordinates(width=0.338, height=0.37
 
-# 修改测试部分
-if __name__ == "__main__":
-    test = Tap_By_test()
-    test.page_test()
+        # x_list = [18,172,326,480,633,783]
+        # y_list = [210,410,610]
+        # for y in y_list:
+        #     for x in x_list:
+        #         # 过滤点击空白区域
+        #         if y == y_list[0] and x is x_list[4]:
+        #             print(f"跳过（{x, y}）")
+        #             break
+        #         else:
+        #             is_beauty = self.utils.compare_image_region(template_path="../page_png/Notice_page.png", region=(x, y, 123, 150), page_name="截图区域")
+        #             if is_beauty is True:
+        #                 print(f"({x}, {y}, 123, 150)=======1")
+        #                 self.utils.Page_Percent()
+        #             else:
+        #                 print(f"({x}, {y}, 123, 150)=======0")
+
+
+        is_beauty = self.utils.compare_image_region(template_path="../page_png/pq/yb.png", region=(597, 899, 150, 150), page_name="锦囊礼包", is_click=False)
+        if is_beauty is True:
+            print("1")
+        else:
+            print("0")

@@ -9,6 +9,11 @@ from core.utils import Utils
 
 from core.base_app import AppAutoManager
 
+# 派遣
+# region=(597, 899, 150, 150)
+
+
+
 
 
 class Run():
@@ -19,7 +24,12 @@ class Run():
 
     def get_run(self):
         try:
-            self.utils.get_snapshot(file_path="./page_png/bogutongjin.png")
+            # "../page_png/armoury_page.png",  # 天降鸿运
+            # "../page_png/horses_page.png",  # 厉兵牧马
+            # "../page_png/Notice_page.png",  # 皇榜
+            # "../page_png/emperor_page.png",  # 帝魂
+            # "../page_png/demon_page.png"  # 神魔  660 899 1138 1377
+            self.utils.get_snapshot(file_path="page_png/pq/no_tl.png", region=(200, 820, 600, 80), overwrite=True)
             # self.utils.find_game_entry(button_name='挑战')
 
             # is_home = self.utils.get_snapshot(file_path="./page_png/demon_page.png", compare=True, page_name="主城")

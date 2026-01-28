@@ -47,9 +47,12 @@ class Run():
         """主运行方法"""
         start_time = time.time()  # 记录开始时间
         try:
-            for i in range(202508010, 202508029):
+            for i in range(202508001, 202508029):
                 # 登录
-                self.tap_by_login.Page_Login(username=i, password="python")
+                log_login = self.tap_by_login.Page_Login(username=i, password="python")
+                if log_login is False:
+                    print(i)
+                    break
                 # 领取vip奖励
                 self.tap_by_vip.Page_Vip()
                 # 好友日常

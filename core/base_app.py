@@ -26,7 +26,7 @@ class AppAutoManager:
                 caps.set_capability("appium:appActivity", ".MainActivity")
                 caps.set_capability("appium:automationName", "UiAutomator2")
                 caps.set_capability("appium:noReset", True)
-                caps.set_capability("appium:newCommandTimeout", 1800)  # 新增20分钟超时设置
+                caps.set_capability("appium:newCommandTimeout", 2000)  # 新增20分钟超时设置
                 caps.set_capability("appium:udid", "127.0.0.1:7555")  # 明确指定UDID
                 caps.set_capability("appium:ensureWebviewsHavePages", True)
                 caps.set_capability("appium:nativeWebScreenshot", True)
@@ -46,6 +46,24 @@ class AppAutoManager:
             except Exception as e:
                 print(f"❌ Appium连接失败: {str(e)}")
                 raise
+
+    def launch_app(self, driver):
+        """启动目标应用"""
+        try:
+            driver.launch_app()
+            print("🚀 应用启动成功")
+        except Exception as e:
+            print(f"❌ 应用启动失败: {str(e)}")
+            raise
+
+    def close_app(self, driver):
+        """关闭目标应用"""
+        try:
+            driver.close_app()
+            print("🛑 应用已关闭")
+        except Exception as e:
+            print(f"⚠️ 应用关闭失败: {str(e)}")
+            raise
 
     def quit(self, driver):
         if driver:

@@ -21,8 +21,9 @@ class Tap_By_Task:
             time.sleep(0.5)
             self.utils.coordinates(width=0.95, height=0.72)
             time.sleep(1)
-            page_name = "../page_png/daily_tasks.png"
-            daily_tasks = self.utils.get_snapshot(file_path=page_name, compare=True, threshold=0.7, page_name="日常任务页面")
-            if daily_tasks is True:
-                self.utils.coordinates(width=0.5, height=0.88)
-                print(f"📍 已通过坐标点击一键领取任务奖励")
+            self.utils.coordinates(width=0.5, height=0.88)
+            # page_name = "../page_png/daily_tasks.png"
+            # daily_tasks = self.utils.get_snapshot(file_path=page_name, compare=True, threshold=0.7, page_name="日常任务页面")
+            # if daily_tasks is True:
+            #     self.utils.coordinates(width=0.5, height=0.88)
+            #     print(f"📍 已通过坐标点击一键领取任务奖励")

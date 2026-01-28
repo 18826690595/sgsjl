@@ -32,7 +32,8 @@ class Tap_By_ZhuZhan():
                     self.utils.coordinates(width=0.86, height=0.52)
                     time.sleep(0.5)
 
-            elif is_home is False:
+            else:
+                print("未找到首页")
                 return False
 
 
@@ -66,7 +67,7 @@ class Tap_By_ZhuZhan():
                         for i in range(13):
                             # 点击游历
                             self.utils.coordinates(width=0.5, height=0.84)
-                            time.sleep(1.5)
+                            time.sleep(1.4)
 
                         time.sleep(1)
                         self.utils.coordinates(width=0.5, height=0.73)
