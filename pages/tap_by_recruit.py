@@ -19,7 +19,9 @@ class Tap_By_Recruit:
 
             # 获取招募页面截图
             time.sleep(0.5)
-            self.utils.coordinates(width=0.8, height=0.67)
+            # self.utils.coordinates(width=0.8, height=0.67)
+            self.utils.compare_image_region(template_path="../page_png/zm/tgdh.png", region=(858, 1258, 58, 58), page_name="跳过动画勾选框",threshold=0.99)
+
             # 点击招募
             time.sleep(0.5)
             self.utils.coordinates(width=0.23, height = 0.72)

@@ -29,7 +29,7 @@ class Tap_By_Arena:
 
             for i in range(5):
                 time.sleep(1)
-                self.utils.coordinates(width=0.73, height=0.56)
+                self.utils.coordinates(width=0.73, height=0.53)
                 self.utils.coordinates(width=0.73, height=0.56)
                 time.sleep(1.5)
                 self.utils.coordinates(width=0.7, height=0.88)

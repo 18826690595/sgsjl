@@ -29,7 +29,6 @@ class Tap_By_test:
         #             else:
         #                 print(f"({x}, {y}, 123, 150)=======0")
 
-
         is_beauty = self.utils.compare_image_region(template_path="../page_png/pq/yb.png", region=(597, 899, 150, 150), page_name="锦囊礼包", is_click=False)
         if is_beauty is True:
             print("1")

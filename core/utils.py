@@ -512,28 +512,6 @@ class Utils():
 
 
 
-    def is_Vip_Page(self):
-        pass
-    def is_GoodFriend_Page(self):
-        pass
-    def is_Chat_Page(self):
-        pass
-    def is_Arena_Page(self):
-        pass
-    def is_Trials_Tower_Page(self):
-        pass
-    def is_Recruit_Page(self):
-        pass
-    def is_Store_Page(self):
-        pass
-    def is_Legion_Page(self):
-        pass
-    def is_OutDoors_Page(self):
-        pass
-    def is_Campaign_Page(self):
-        pass
-    def is_Task_Page(self):
-        pass
 
     def compare_image_region(self, template_path, region=None, threshold=0.7, page_name=None, is_click=True):
         """

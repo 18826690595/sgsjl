@@ -33,6 +33,7 @@ class Tap_By_Campaign:
 
     def revenue(self):
         # 点击征战收益
+        time.sleep(0.3)
         self.utils.coordinates(width=0.2, height=0.7)
         time.sleep(0.5)
 
@@ -89,7 +90,7 @@ class Tap_By_Campaign:
         else:
             print("未找到领取收益/快速探采")
 
-
+    # 派遣
     def dispatch(self, is_mark=None):
         # 点击返回征战页面
         if self.campaign_page() is not True:
@@ -108,6 +109,7 @@ class Tap_By_Campaign:
 
         y_png = [660, 899, 1138, 1377]
         for i in  range(20):
+            time.sleep(0.3)
 
             # 遍历查找满足派遣条件的任务
             for y in y_png:

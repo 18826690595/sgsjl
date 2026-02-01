@@ -12,37 +12,47 @@ class Tap_By_Activity:
         self.driver = driver
         self.utils = Utils(self.driver)
 
-    def activity_pay(self, bt_pay=1, activity_tpye=None):
-        # 点击免费
-        self.utils.coordinates(width=0.938, height=0.253)
-        time.sleep(0.5)
-        self.utils.coordinates(width=0.85, height=0.42)
-        time.sleep(0.5)
-        self.utils.coordinates(width=0.58, height=0.85)
-        time.sleep(1)
 
-        is_pay_win = self.utils.get_snapshot(file_path="../page_png/pay_win.png", compare=True)
-        if is_pay_win is True:
-            self.utils.coordinates(width=0.835, height=0.345)
-
-        # 点击元宝购买
-        if bt_pay == 1:
-            # 如果不为空则点击第一个购买，处理神魔购买元宝永远在第一个位置
-            if activity_tpye is None:
-                self.utils.coordinates(width=0.85, height=0.58)
-            else:
-                self.utils.coordinates(width=0.85, height=0.42)
+    # 活动日常购买操作
+    def lq_lb(self, lb_path, mf_path, yb_path, yb_qd_path, region_lb,region_mf,region_yb, region_yb_qd):
+        """
+        :param yb_qd_path: 元宝购买弹窗确认按钮对比图片路径
+        :param region_yb_qd: 元宝购买确定弹窗
+        :param region_yb: 元宝购买比对坐标
+        :param region_mf: 免费按钮比对坐标
+        :param region_lb: 礼包按钮比对坐标
+        # :param region_page: 页面比对坐标
+        # :param page_path: 进入页面的对比图片路径
+        :param lb_path: 礼包按钮对比图片路径
+        :param mf_path: 免费按钮对比图片路径
+        :param yb_path: 元宝购买按钮对比图片路径
+        # :param page_name: 页面名称
+        :return: 执行成功返回True，否则返回False
+        """
+        time.sleep(0.5)
+        is_lb = self.utils.compare_image_region(template_path=lb_path, region=region_lb, page_name="礼包")
+        time.sleep(0.5)
+        if is_lb is True:
+            self.utils.compare_image_region(template_path=mf_path, region=region_mf, page_name="领取免费礼包")
+            self.utils.coordinates(width=0.96, height=0.5)
             time.sleep(0.5)
-            self.utils.coordinates(width=0.58, height=0.85)
+            self.utils.compare_image_region(template_path=yb_path, region=region_yb, page_name="购买元宝礼包")
+            time.sleep(1)
+            self.utils.compare_image_region(template_path=yb_qd_path, region=region_yb_qd, page_name="购买元宝礼包确定")
+            time.sleep(0.3)
+            for i in range(2):
+                self.utils.coordinates(width=0.55, height=0.95)
 
-        # 如果出现支付弹窗则点击关闭弹窗
-        is_pay_win = self.utils.get_snapshot(file_path="../page_png/pay_win.png", compare=True)
-        if is_pay_win is True:
-            self.utils.coordinates(width=0.835, height=0.345)
+            return is_lb
+
+        else:
+            print(f"未匹配上{is_lb}按钮，跳过")
+            return False
 
 
 
-    # 厉兵牧马
+
+    # 厉兵秣马
     def horses_operation(self):
         # 点击完成任务
         for i in range(12):
@@ -59,24 +69,6 @@ class Tap_By_Activity:
             self.utils.coordinates(width=0.835, height=0.345)
 
 
-    # 天降鸿运
-    def hongyun(self):
-        time.sleep(0.5)
-        is_armoury_page_inner = self.utils.compare_image_region(template_path="../page_png/armoury_page_inner.png", region=(850, 1780, 180, 180), page_name="锦囊妙计")
-        if is_armoury_page_inner is True:
-            print("进入锦囊妙计页面")
-            self.utils.compare_image_region(template_path="../page_png/armoury_page_lb.png", region=(940, 435, 120, 120), page_name="锦囊礼包")
-            time.sleep(0.5)
-            self.utils.compare_image_region(template_path="../page_png/armoury_lb_mf.png", region=(780, 750, 230, 100), page_name="领取免费礼包")
-            self.utils.coordinates(width=0.96, height=0.5)
-            time.sleep(0.5)
-            self.utils.compare_image_region(template_path="../page_png/armoury_lb_yb.png", region=(780, 1028, 230, 100), page_name="购买元宝礼包")
-
-            return True
-
-        else:
-            print("非锦囊妙计页面，跳过")
-            return False
 
     # 皇榜
     def Notice_operation(self):
@@ -89,70 +81,66 @@ class Tap_By_Activity:
 
     # 帝魂帝尊操作
     def emperor_operation(self, bt_pay=1, activity_tpye=None):
-        for i in range(2):
-            if i == 1:
-                self.utils.coordinates(width=0.3, height=0.96)
-                time.sleep(1)
-                is_emperor_dihun = self.utils.get_snapshot(file_path="../page_png/emperor_dihun.png", compare=True)
-                if is_emperor_dihun is not True:
-                    self.utils.coordinates(width=0.5, height=0.96)
-                    time.sleep(0.5)
-                    # 再次判断是否在帝魂页面
-                    is_emperor_dihun = self.utils.get_snapshot(file_path="../page_png/emperor_dihun.png", compare=True)
-                    if is_emperor_dihun is not True:
-                        break
+        huodong = {
+            "page_path": "../page_png/armoury_page_inner.png",
+            "lb_path": "../page_png/armoury_page_lb.png",
+            "mf_path": "../page_png/armoury_lb_mf.png",
+            "yb_path": "../page_png/armoury_lb_yb.png",
+            "page_name": "锦囊妙计",
+            "region_page": (850, 1780, 180, 180),
+            "region_lb": (940, 435, 120, 120),
+            "region_mf": (780, 750, 230, 100),
+            "region_yb": (780, 1028, 230, 100)
+        }
+        res = self.lq_lb(lb_path=huodong["lb_path"], mf_path=huodong["mf_path"],
+                         yb_path=huodong["yb_path"], region_lb=huodong["region_lb"],
+                         region_mf=huodong["region_mf"], region_yb=huodong["region_yb"])
+        return res
 
+    # 鸿运
+    def hongyun(self):
 
-            # 帝魂购买
-            self.utils.coordinates(width=0.938, height=0.2)
-            time.sleep(0.5)
-            self.utils.coordinates(width=0.85, height=0.42)
-            time.sleep(0.5)
-            self.utils.coordinates(width=0.58, height=0.85)
-            time.sleep(1)
+        huodong = {
+            "page_path": "../page_png/armoury_page_inner.png",
+            "lb_path" : "../page_png/armoury_page_lb.png",
+            "mf_path" : "../page_png/armoury_lb_mf.png",
+            "yb_path" : "../page_png/armoury_lb_yb.png",
+            "yb_qd_path" : "../page_png/armoury_lb_qd_yb.png",
+            "page_name" : "锦囊妙计",
+            "region_page" : (850, 1780, 180, 180),
+            "region_lb" : (940, 435, 120, 120),
+            "region_mf" : (780, 750, 230, 100),
+            "region_yb" : (780, 1028, 230, 100),
+            "region_yb_qd" : (600, 1150, 296, 90)
+        }
 
-            is_pay_win = self.utils.get_snapshot(file_path="../page_png/pay_win.png", compare=True)
-            if is_pay_win is True:
-                self.utils.coordinates(width=0.835, height=0.345)
+        res = self.lq_lb(lb_path=huodong["lb_path"], mf_path=huodong["mf_path"], yb_path=huodong["yb_path"],yb_qd_path=huodong["yb_qd_path"], region_lb=huodong["region_lb"],region_mf=huodong["region_mf"],region_yb=huodong["region_yb"],region_yb_qd=huodong["region_yb_qd"])
+        return res
 
-            # 点击元宝购买
-            if bt_pay == 1:
-                # 如果不为空则点击第一个购买，处理神魔购买元宝永远在第一个位置
-                if activity_tpye is None:
-                    self.utils.coordinates(width=0.85, height=0.58)
-                else:
-                    self.utils.coordinates(width=0.85, height=0.42)
-                time.sleep(0.5)
-                self.utils.coordinates(width=0.58, height=0.85)
+    # 神魔
+    def shenmo(self):
+        huodong = {
+            "page_path": "../page_png/armoury_page_inner.png",
+            "lb_path": "../page_png/armoury_page_lb.png",
+            "mf_path": "../page_png/armoury_lb_mf.png",
+            "yb_path": "../page_png/armoury_lb_yb.png",
+            "page_name": "锦囊妙计",
+            "region_page": (850, 1780, 180, 180),
+            "region_lb": (940, 435, 120, 120),
+            "region_mf": (780, 750, 230, 100),
+            "region_yb": (780, 1028, 230, 100)
+        }
 
-            # 如果出现支付弹窗则点击关闭弹窗
-            is_pay_win = self.utils.get_snapshot(file_path="../page_png/pay_win.png", compare=True)
-            if is_pay_win is True:
-                self.utils.coordinates(width=0.835, height=0.345)
+        is_page_inner = self.utils.compare_image_region(template_path=huodong["page_path"], region=huodong["region_page"],
+                                                                page_name=huodong["page_name"])
+        if is_page_inner is True:
+            for i in range(2):
+                self.lq_lb(lb_path=huodong["lb_path"], mf_path=huodong["mf_path"],
+                                 yb_path=huodong["yb_path"], region_lb=huodong["region_lb"], region_mf=huodong["region_mf"], region_yb=huodong["region_yb"])
+                time.sleep(0.1)
+                self.utils.coordinates(width=0.55, height=0.05)
 
-        # 帝尊战令
-        self.utils.coordinates(width=0.5, height=0.96)
-        is_emperor_zhanling = self.utils.get_snapshot(file_path="../page_png/emperor_zhanling.png.png", compare=True)
-        if is_emperor_zhanling is not True:
-            self.utils.coordinates(width=0.68, height=0.96)
-            time.sleep(0.5)
-        is_emperor_zhanling = self.utils.get_snapshot(file_path="../page_png/emperor_zhanling.png.png", compare=True)
-        if is_emperor_zhanling is True:
-            self.utils.coordinates(width=0.65, height=0.87)
-            time.sleep(0.5)
-            is_emperor_task = self.utils.get_snapshot(file_path="../page_png/emperor_task.png.png",
-                                                          compare=True)
-            if is_emperor_task is True:
-                for i in range(12):
-                    self.utils.coordinates(width=0.85, height=0.443)
-
-
-        else:
-            print("未找到帝魂战令页面，跳过...")
-            return
-
-    def t_lgs(self):
-        self.utils.Page_Percent()
+            return is_page_inner
 
 
     # 税收
@@ -208,12 +196,12 @@ class Tap_By_Activity:
                                     activity_total = activity_total + 1
                             # 神魔
                             elif activity_path == activity_page[1]:
-                                # self.activity_pay(activity_tpye=1)
+                                self.shenmo()
                                 print("神魔匹配成功")
                                 activity_total = activity_total + 1
                             # 厉兵牧马
                             elif activity_path == activity_page[2]:
-                                # self.horses_operation()
+                                self.horses_operation()
                                 print("厉兵牧马匹配成功")
 
                                 activity_total = activity_total + 1

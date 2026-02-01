@@ -11,20 +11,20 @@ class Run():
         self.base_app = AppAutoManager()
         self.driver = self.base_app.appium_init()
         # # 实例化页面组件
-        # self.tap_by_login = Tap_By_Login(self.driver)
-        # self.tap_by_outlogin = Tap_By_OutLogin(self.driver)
+        self.tap_by_login = Tap_By_Login(self.driver)
+        self.tap_by_outlogin = Tap_By_OutLogin(self.driver)
         self.page_barrier = PageBarrier(self.driver)
         self.page_test = Tap_By_test(self.driver)
 
     def get_run(self):
         """主运行方法"""
         try:
-            for i in range(202508026, 202508029):
-                # self.tap_by_login.Page_Login(username=i, password="python")
+            for i in range(202508002, 202508019):
+                self.tap_by_login.Page_Login(username=i, password="python")
 
                 self.page_barrier.page_barrier()
 
-                break
+                self.tap_by_outlogin.Page_Out_Login()
 
         except Exception as e:
             print(e)

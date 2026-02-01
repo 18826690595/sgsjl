@@ -22,7 +22,9 @@ class Run():
             for i in range(202508026, 202508029):
                 # self.tap_by_login.Page_Login(username=i, password="python")
 
-                self.page_activity.Page_Activity()
+                # self.page_activity.Page_Activity()
+                self.page_activity.hongyun()
+
 
                 break
 

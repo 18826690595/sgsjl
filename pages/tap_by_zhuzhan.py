@@ -80,20 +80,32 @@ class Tap_By_ZhuZhan():
                         time.sleep(1)
 
 
-
-
-
-
-
-
-
-
-
-
         except Exception as e:
             print(f"执行流程时出错: {str(e)}")
             return False
 
+
+
+    def cangpin(self):
+        is_zb = self.utils.compare_image_region(template_path="../page_png/zhuzhan/zb.png", region=(520, 1760, 130, 130),
+                                        page_name="珍宝入口", threshold=0.99)
+        if is_zb is True:
+            time.sleep(0.5)
+
+            self.utils.coordinates(width=0.1, height=0.32)
+            time.sleep(0.1)
+            self.utils.coordinates(width=0.95, height=0.32)
+            time.sleep(0.5)
+            self.utils.compare_image_region(template_path="../page_png/zhuzhan/cp_lb.png", region=(780, 760, 200, 90),
+                                            page_name="珍宝入口", threshold=0.99)
+
+
+
     def zhuzhan_all(self):
+        # 神兽
         self.Super_Monster()
+        # 红颜
         self.zhuzhan_beauty()
+
+        # 藏品
+        self.cangpin()

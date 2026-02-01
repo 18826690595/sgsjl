@@ -121,10 +121,10 @@ class Tap_By_OutDoors:
         if outdoors is True:
             self.utils.coordinates(width=0.3, height=0.5)
             # 需要添加检验是否可以执行扫荡
-            time.sleep(0.5)
+            time.sleep(0.3)
             self.utils.coordinates(width=0.9, height=0.7)
 
-            time.sleep(0.5)
+            time.sleep(0.3)
             self.utils.coordinates(width=0.5, height=0.65)
 
 
@@ -304,14 +304,15 @@ class Tap_By_OutDoors:
             # 领取收益
             for i in range(3):
                 self.utils.coordinates(width=0.85, height=0.42)
+                time.sleep(0.3)
 
             # 寻经问道领取礼包
             self.utils.coordinates(width=0.72, height=0.95)
             time.sleep(0.5)
-            for i in range(3):
-                self.utils.coordinates(width=0.86, height=0.42)
-                if i == 2:
-                    return True
+            # for i in range(3):
+            #     self.utils.coordinates(width=0.86, height=0.42)
+            #     if i == 2:
+            #         return True
 
         else:
             print("未进入博古通今页面，跳过流程")
@@ -336,6 +337,7 @@ class Tap_By_OutDoors:
         self.bogutongjin()
         #
         # self.zhaoyun()
+        # 荆州
         # self.JingZhou()
         # self.Yunmengze()
 

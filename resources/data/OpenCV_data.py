@@ -49,15 +49,28 @@ region=(783, 610, 123, 150)
 
 
 
-for x in range(10):
-    for y in range(10):
-        if y == 1:
-            break
-        else:
-            print(f'x:{x},y:{y}')
+# for x in range(10):
+#     for y in range(10):
+#         if y == 1:
+#             break
+#         else:
+#             print(f'x:{x},y:{y}')
 
 
+huodong = {
+            "page_path": "../page_png/armoury_page_inner.png",
+            "lb_path" : "../page_png/armoury_page_lb.png",
+            "mf_path" : "../page_png/armoury_lb_mf.png",
+            "yb_path" : "../page_png/armoury_lb_yb.png",
+            "page_name" : "锦囊妙计",
+            "region_page" : (850, 1780, 180, 180),
+            "region_lb" : (940, 435, 120, 120),
+            "region_mf" : (780, 750, 230, 100),
+            "region_yb" : (780, 1028, 230, 100)
+        }
 
+print(type(huodong["region_mf"]))
+print(huodong["region_mf"][0])
 
 #
 # region_one = ((18, 210, 123, 150),(172, 210, 123, 150),(326, 210, 123, 150),(480, 210, 123, 150))

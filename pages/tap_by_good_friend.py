@@ -22,7 +22,7 @@ class Tap_By_Good_Friend:
 
             # 点击好友列表
             self.utils.coordinates(width=0.89, height=0.95)
-            time.sleep(1)
+            time.sleep(0.5)
 
             # 点击一键收送
             self.utils.coordinates(width=0.83, height=0.85)

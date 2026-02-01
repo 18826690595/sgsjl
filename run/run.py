@@ -47,7 +47,7 @@ class Run():
         """主运行方法"""
         start_time = time.time()  # 记录开始时间
         try:
-            for i in range(202508001, 202508029):
+            for i in range(202508003, 202508029):
                 # 登录
                 log_login = self.tap_by_login.Page_Login(username=i, password="python")
                 if log_login is False:
