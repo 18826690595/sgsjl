@@ -139,13 +139,12 @@ class Tap_By_OutDoors:
 
             # 循环4个类型的副本
             for i in range(4):
-                is_Dungeon = self.utils.get_snapshot(file_path="../page_png/Dungeon.png",
-                                                              compare=True, threshold=0.5)
-                if is_Dungeon is True:
+                # is_Dungeon = self.utils.get_snapshot(file_path="../page_png/Dungeon.png",
+                #                                               compare=True, threshold=0.5)
+                # if is_Dungeon is True:
                     # 0锦囊、1装备、2经验、3银币
                     if i == 0:
                         self.utils.coordinates(width=0.43, height=0.94)
-                        time.sleep(0.5)
                     elif i == 1:
                         self.utils.coordinates(width=0.58, height=0.94)
                     elif i == 2:
@@ -153,25 +152,28 @@ class Tap_By_OutDoors:
                     elif i == 3:
                         self.utils.coordinates(width=0.88, height=0.94)
 
-
                     # 循环扫荡3次
                     for j in range(6):
                         time.sleep(0.5)
-                        self.utils.coordinates(width=0.85, height=0.45)
-                        time.sleep(0.5)
+                        # self.utils.coordinates(width=0.85, height=0.45)
+                        # time.sleep(0.5)
 
-                        fuben_saodang_tishi = self.utils.get_snapshot(file_path="../page_png/fuben_saodang_tishi.png",
-                                                                      compare=True, threshold=0.5)
-                        if fuben_saodang_tishi is True:
-                            # # 点击元宝扫荡
-                            # self.utils.coordinates(width=0.7, height=0.60)
+                        is_lb = self.utils.compare_image_region(template_path="../page_png/outdoor/fuben/saodang.png", region=(790, 810, 230, 90),
+                                                                page_name=f"扫荡{i}", is_click=False,threshold=0.9)
 
-                            # 只扫荡免费次数
+                        if is_lb is True:
+                            self.utils.coordinates(width=0.85, height=0.45)
+                            time.sleep(0.5)
+                        #     # # 点击元宝扫荡
+                        #     # self.utils.coordinates(width=0.7, height=0.60)
+                        #
+                        #     # 只扫荡免费次数
                             self.utils.coordinates(width=0.2, height=0.96)
-                            break
+                        #     break
                         else:
-                            # time.sleep(0.5)
-                            self.utils.coordinates(width=0.2, height=0.96)
+                            break
+                        #     # time.sleep(0.5)
+                        #     self.utils.coordinates(width=0.2, height=0.96)
 
     # 攻城略地税收
     # 云梦泽
@@ -233,32 +235,43 @@ class Tap_By_OutDoors:
         is_yiji = self.utils.get_snapshot(file_path="../page_png/yiji.png", compare=True)
         if is_yiji is True:
             for i in range(15):
+                # 重新点击进入遗迹界面
                 if i >= 1:
                     self.utils.coordinates(width=0.3, height=0.2)
                     time.sleep(0.5)
+
+                # 判断如果已经结束则退出
+                if i >= 6:
+                    is_yiji_done = self.utils.compare_image_region(template_path="../page_png/outdoor/yiji/chonzhi.png", region=(430, 1400, 230, 250),
+                                                                page_name=f"扫荡{i}", is_click=False,threshold=0.9)
+                    if is_yiji_done is True:
+                        print("遗迹任务已完成！！！")
+                        break
+
+
+                # 点击摇骰子
                 self.utils.coordinates(width=0.5, height=0.8)
-                time.sleep(0.5)
+                time.sleep(0.3)
+
+                # 第三次摇骰子选择默认元宝付费弹窗
                 if i == 2:
                     self.utils.coordinates(width=0.38, height=0.52)
                     self.utils.coordinates(width=0.65, height=0.62)
-                elif i >= 5:
-                    time.sleep(0.5)
-                is_yiji_done = self.utils.get_snapshot(file_path="../page_png/yiji_done.png", compare=True, threshold=0.9)
-                if is_yiji_done is True:
-                    print("遗迹任务已完成！！！")
-                    break
+                    time.sleep(0.3)
+
+
                 # 否则返回上级页面
-                else:
-                    self.utils.coordinates(width=0.035, height=0.95)
-                    time.sleep(0.5)
-
-
-
-
-
+                self.utils.coordinates(width=0.035, height=0.95)
+                time.sleep(0.3)
         else:
-            print("未进入博古通今页面，跳过流程")
+            print("未进入七星遗迹页面，跳过流程")
             return False
+
+
+
+
+
+
     # 万象古镜
     # 九州
     # 单骑救主
@@ -335,7 +348,7 @@ class Tap_By_OutDoors:
         self.zhaoyun()
         # 博古通今
         self.bogutongjin()
-        #
+
         # self.zhaoyun()
         # 荆州
         # self.JingZhou()

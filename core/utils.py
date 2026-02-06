@@ -516,7 +516,7 @@ class Utils():
     def compare_image_region(self, template_path, region=None, threshold=0.7, page_name=None, is_click=True):
         """
         截取指定区域与本地图片进行比对
-        :param is_click:
+        :param is_click:False则只匹配不点击
         :param page_name:
         :param template_path: 模板图片路径
         :param region: 截图区域 (x, y, width, height)，None表示全屏
