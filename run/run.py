@@ -47,42 +47,42 @@ class Run():
         """主运行方法"""
         start_time = time.time()  # 记录开始时间
         try:
-            # for i in range(202508001, 202508029):
-            #     # 登录
-            #     log_login = self.tap_by_login.Page_Login(username=i, password="python")
-            #     if log_login is False:
-            #         print(i)
-            #         break
-            #     # 领取vip奖励
-            #     self.tap_by_vip.Page_Vip()
-            #     # 好友日常
-            #     self.tap_by_good_friend.Page_good_friend()
-            #     # 发送世界聊天
-            #     self.tap_by_chat.Page_Chat()
-            #     # 竞技场
-            #     self.tap_by_arena.Page_Arena()
-            #     # 斗塔
-            #     self.tap_by_trials_tower.Page_Trials_Tower()
-            #     # 名将招募
-            #     self.tap_by_recruit.Page_Recruit()
-            #     # 商店购买
-            #     self.tap_by_store.Page_Store()
-            #     # 军团任务
-            #     self.tap_by_legion.Page_Legion()
-            #     # 野外
+            for i in range(202508001, 202508029):
+                # 登录
+                log_login = self.tap_by_login.Page_Login(username=i, password="python")
+                if log_login is False:
+                    print(i)
+                    break
+                # 领取vip奖励
+                self.tap_by_vip.Page_Vip()
+                # 好友日常
+                self.tap_by_good_friend.Page_good_friend()
+                # 发送世界聊天
+                self.tap_by_chat.Page_Chat()
+                # 竞技场
+                self.tap_by_arena.Page_Arena()
+                # 斗塔
+                self.tap_by_trials_tower.Page_Trials_Tower()
+                # 名将招募
+                self.tap_by_recruit.Page_Recruit()
+                # 商店购买
+                self.tap_by_store.Page_Store()
+                # 军团任务
+                self.tap_by_legion.Page_Legion()
+                # 野外
                 self.tap_by_outdoors.Page_OutDoors()
-            #     # 征战
-            #     self.tap_by_campaign.Page_Campaign()
-            #     # 领取任务奖励
-            #     self.tap_by_task.Page_Task()
-            #     # 助战
-            #     self.Tap_By_ZhuZhan.zhuzhan_all()
-            #
-            #     # 未开发
-            #     # self.tap_by_activity.Page_Activity()
-            #
-            #     #
-            #     self.tap_by_outlogin.Page_Out_Login()
+                # 征战
+                self.tap_by_campaign.Page_Campaign()
+                # 领取任务奖励
+                self.tap_by_task.Page_Task()
+                # 助战
+                self.Tap_By_ZhuZhan.zhuzhan_all()
+
+                # 未开发
+                # self.tap_by_activity.Page_Activity()
+
+                #
+                self.tap_by_outlogin.Page_Out_Login()
 
 
         except Exception as e:
