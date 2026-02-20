@@ -29,7 +29,7 @@ class Run():
             # "../page_png/Notice_page.png",  # 皇榜
             # "../page_png/emperor_page.png",  # 帝魂
             # "../page_png/demon_page.png"  # 神魔  660 899 1138 1377
-            self.utils.get_snapshot(file_path="page_png/outdoor/yiji/chonzhi.png", region=(430, 1400, 230, 250), overwrite=True)
+            self.utils.get_snapshot(file_path="page_png/test.png", region=(0, 0, 1080, 780), overwrite=True)
             # self.utils.find_game_entry(button_name='挑战')
 
             # is_home = self.utils.get_snapshot(file_path="./page_png/demon_page.png", compare=True, page_name="主城")

@@ -41,7 +41,7 @@ class Run():
         self.tap_by_campaign = Tap_By_Campaign(self.driver)
         self.tap_by_arena = Tap_By_Arena(self.driver)
         self.Tap_By_ZhuZhan = Tap_By_ZhuZhan(self.driver)
-        # self.tap_by_activity = Tap_By_Activity(s·elf.driver)
+        self.tap_by_activity = Tap_By_Activity(self.driver)
 
     def get_run(self):
         """主运行方法"""
@@ -78,8 +78,11 @@ class Run():
                 # 助战
                 self.Tap_By_ZhuZhan.zhuzhan_all()
 
-                # 未开发
-                # self.tap_by_activity.Page_Activity()
+                # 税收
+                self.tap_by_activity.shuishou()
+
+                # 活动
+                self.tap_by_activity.all_activity()
 
                 #
                 self.tap_by_outlogin.Page_Out_Login()

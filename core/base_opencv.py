@@ -1,10 +1,11 @@
 import cv2
 import numpy as np
+from .base_app import AppAutoManager
 
-class OpenCVTemplateMatcher:
+class OpenCVTemplateMatcher(AppAutoManager):  # 继承 AppAutoManager
     def __init__(self):
-        pass
-    
+        super().__init__()  # 调用父类初始化
+
     def get_snapshot(self, driver):
         
         # 获取当前屏幕截图
@@ -19,6 +20,48 @@ class OpenCVTemplateMatcher:
 
 
 
+    def match_and_click(self, template_path, region, threshold=0.8, is_click=False):
+        """
+        截取指定区域进行图像比对，匹配成功后点击模板中心位置
+        :param template_path: 模板图片路径
+        :param region: 指定区域 (x1, y1, x2, y2)
+        :param threshold: 匹配阈值，默认0.8
+        :return: 是否匹配并点击成功
+        """
+        # 读取模板图片
+        template = cv2.imread(template_path, cv2.IMREAD_COLOR)
+        if template is None:
+            raise ValueError(f"无法读取模板图片: {template_path}")
+        
+        # 获取屏幕截图
+        screen = self.get_snapshot(self.driver)  # 使用继承的driver属性
+        
+        # 裁剪指定区域
+        x1, y1, x2, y2 = region
+        screen = screen[y1:y2, x1:x2]
+        
+        # 进行模板匹配
+        result = cv2.matchTemplate(screen, template, cv2.TM_CCOEFF_NORMED)
+        _, max_val, _, max_loc = cv2.minMaxLoc(result)
+        print(max_val)
+        if max_val < threshold:
+            return False
+        
+        if is_click == True:
+            # 计算按钮中心位置并点击
+            h, w = template.shape[:2]
+            center_x = max_loc[0] + w // 2 + x1
+            center_y = max_loc[1] + h // 2 + y1
+            
+            # 使用ActionChains点击
+            from selenium.webdriver.common.action_chains import ActionChains
+            actions = ActionChains(self.driver)  # 使用继承的driver属性
+            actions.move_by_offset(center_x, center_y).click().perform()
+        
+        return True
+
+
+    
     def OpenCV_add(self, template_path, region=None, driver=None):
         """
         在指定区域内匹配模板按钮

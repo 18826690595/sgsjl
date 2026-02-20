@@ -29,8 +29,16 @@ class Tap_By_test:
         #             else:
         #                 print(f"({x}, {y}, 123, 150)=======0")
 
-        is_beauty = self.utils.compare_image_region(template_path="../page_png/pq/yb.png", region=(597, 899, 150, 150), page_name="锦囊礼包", is_click=False)
+        # is_beauty = self.utils.compare_image_region(template_path="../page_png/pq/yb.png", region=(597, 899, 150, 150), page_name="锦囊礼包", is_click=False)
+        is_beauty = self.utils.match_and_click(template_path="../page_png/activity/demon_page.png", region=(0, 0, 1080, 600), page_name="锦囊礼包", is_click=True)
         if is_beauty is True:
             print("1")
         else:
             print("0")
+
+
+    def some_method(self):
+        # 可以直接调用 OpenCV 方法
+        result = self.utils.match_and_click("../page_png/activity/demon_page.png", (0,0,100,100))
+        print(result)
+

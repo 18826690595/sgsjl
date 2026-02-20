@@ -128,6 +128,46 @@ class Tap_By_OutDoors:
             self.utils.coordinates(width=0.5, height=0.65)
 
 
+    # 副本-高效率
+    def fuben(self):
+        # 判断当前是否在野外页面
+        is_outdoors1 = self.tap_by_outdoors()
+        if is_outdoors1 is True:
+            # 点击副本入口
+            self.utils.coordinates(width=0.3, height=0.2)
+            time.sleep(0.5)
+
+            # 循环4个类型的副本
+            for i in range(4):
+                # is_Dungeon = self.utils.get_snapshot(file_path="../page_png/Dungeon.png",
+                #                                               compare=True, threshold=0.5)
+                # if is_Dungeon is True:
+                # 0锦囊、1装备、2经验、3银币， saodang_mun = 6为扫荡次数
+                if i == 0:
+                    self.utils.coordinates(width=0.43, height=0.94)
+                    saodang_mun = 5
+                elif i == 1:
+                    self.utils.coordinates(width=0.58, height=0.94)
+                    saodang_mun = 3
+                elif i == 2:
+                    self.utils.coordinates(width=0.73, height=0.94)
+                    saodang_mun = 4
+                elif i == 3:
+                    self.utils.coordinates(width=0.88, height=0.94)
+                    saodang_mun = 5
+
+
+                # 循环扫荡3次
+                for j in range(saodang_mun):
+                    time.sleep(0.5)
+                    self.utils.coordinates(width=0.85, height=0.45)
+                    self.utils.coordinates(width=0.85, height=0.85)
+                    time.sleep(0.3)
+                    #     # 只扫荡免费次数
+                    self.utils.coordinates(width=0.2, height=0.96)
+
+
+    # 副本（效率太慢）已废弃
     def	Dungeon(self):
 
         # 判断当前是否在野外页面
@@ -339,7 +379,7 @@ class Tap_By_OutDoors:
         # 赤壁
         self.ScarredCliff()
         # 副本
-        self.Dungeon()
+        self.fuben()
         # 虎牢
         self.rage_at_tiger_lair()
         # 七星遗迹
@@ -349,7 +389,6 @@ class Tap_By_OutDoors:
         # 博古通今
         self.bogutongjin()
 
-        # self.zhaoyun()
         # 荆州
         # self.JingZhou()
         # self.Yunmengze()

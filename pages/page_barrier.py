@@ -1,12 +1,10 @@
 import time
 
-from core.utils import Utils
+from pages.base_page import BasePage
 
-class PageBarrier:
 
-    def __init__(self, driver):
-        self.driver = driver
-        self.utils = Utils(self.driver)
+class PageBarrier(BasePage):
+
 
 
     # 推图

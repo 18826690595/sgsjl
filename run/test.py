@@ -23,8 +23,9 @@ class Run():
                 # self.tap_by_login.Page_Login(username=i, password="python")
 
                 self.page_test.test()
+                # self.page_test.some_method()
 
-                # break
+                break
 
         except Exception as e:
             print(e)

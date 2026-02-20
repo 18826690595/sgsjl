@@ -13,7 +13,7 @@ import pytesseract
 from PIL import Image
 
 
-class Utils():
+class Utils:
 
     def __init__(self, driver):
         self.driver = driver
@@ -576,5 +576,83 @@ class Utils():
             print(f"❌ 图片比对失败: {str(e)}")
 
 
+    # 局部匹配小图
+    def match_and_click(self, template_path, region=None, threshold=0.7, page_name=None, is_click=True):
+        """
+        截取指定区域与本地图片进行比对，支持不同尺寸的模板匹配
+        :param is_click: False则只匹配不点击
+        :param page_name: 页面名称描述
+        :param template_path: 模板图片路径
+        :param region: 截图区域 (x, y, width, height)，None表示全屏
+        :param threshold: 匹配阈值 (0-1)
+        :return: 匹配结果和置信度
+        """
+        try:
+            # 获取屏幕截图
+            screenshot = self.driver.get_screenshot_as_png()
+            screenshot_np = np.frombuffer(screenshot, np.uint8)
+            screen = cv2.imdecode(screenshot_np, cv2.IMREAD_COLOR)
 
+            # 如果指定了截图区域
+            if region is not None:
+                x, y, w, h = region
+                # 确保区域在屏幕范围内
+                x = max(0, min(x, screen.shape[1]))
+                y = max(0, min(y, screen.shape[0]))
+                w = min(w, screen.shape[1] - x)
+                h = min(h, screen.shape[0] - y)
+                screen = screen[y:y + h, x:x + w]
 
+            # 读取模板图片
+            template = cv2.imread(template_path, cv2.IMREAD_COLOR)
+            if template is None:
+                print(f"❌ 无法加载模板图片: {template_path}")
+                return False
+
+            # 多尺度模板匹配
+            found = None
+            for scale in np.linspace(0.5, 2.0, 10):  # 在50%-200%范围内缩放模板
+                resized = cv2.resize(template, (int(template.shape[1] * scale), int(template.shape[0] * scale)))
+                
+                # 确保模板不大于屏幕图像
+                if resized.shape[0] > screen.shape[0] or resized.shape[1] > screen.shape[1]:
+                    continue
+                    
+                # 模板匹配
+                result = cv2.matchTemplate(screen, resized, cv2.TM_CCOEFF_NORMED)
+                min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+                
+                # 更新最佳匹配
+                if found is None or max_val > found[0]:
+                    found = (max_val, max_loc, scale)
+
+            if found is None or found[0] < threshold:
+                print(f"❌ {page_name}图片匹配失败 (最高置信度: {found[0] if found else 0:.2f})")
+                return False
+                
+            max_val, max_loc, scale = found
+            
+            if is_click:
+                # 计算中心位置 (考虑缩放因子)
+                h, w = template.shape[:2]
+                scaled_w = int(w * scale)
+                scaled_h = int(h * scale)
+                center_x = max_loc[0] + scaled_w // 2
+                center_y = max_loc[1] + scaled_h // 2
+
+                # 如果指定了区域，需要调整坐标
+                if region is not None:
+                    center_x += x
+                    center_y += y
+
+                # 点击中心位置
+                self.driver.tap([(center_x, center_y)], 300)
+                print(f"✅ {page_name}图片匹配成功并点击 (置信度: {max_val:.2f}, 缩放: {scale:.2f}, 位置: ({center_x}, {center_y}))")
+            else:
+                print(f"✅ {page_name}图片匹配成功 (置信度: {max_val:.2f}, 缩放: {scale:.2f})")
+
+            return True
+
+        except Exception as e:
+            print(f"❌ 图片比对失败: {str(e)}")
+            return False

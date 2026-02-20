@@ -6,7 +6,7 @@ from pages.tap_by_outlogin import Tap_By_OutLogin
 from pages.test import Tap_By_test
 
 
-class Run():
+class Run:
     def __init__(self):
         self.base_app = AppAutoManager()
         self.driver = self.base_app.appium_init()
@@ -19,12 +19,12 @@ class Run():
     def get_run(self):
         """主运行方法"""
         try:
-            for i in range(202508002, 202508019):
-                self.tap_by_login.Page_Login(username=i, password="python")
+            # for i in range(202508002, 202508019):
+            #     self.tap_by_login.Page_Login(username=i, password="python")
 
                 self.page_barrier.page_barrier()
 
-                self.tap_by_outlogin.Page_Out_Login()
+                # self.tap_by_outlogin.Page_Out_Login()
 
         except Exception as e:
             print(e)
