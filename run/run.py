@@ -19,7 +19,7 @@ from pages.tap_by_vip import Tap_By_VIP
 from pages.tap_by_zhuzhan import Tap_By_ZhuZhan
 
 
-class Run():
+class Run:
     def __init__(self):
         self.base_app = AppAutoManager()
         self.driver = self.base_app.appium_init()
