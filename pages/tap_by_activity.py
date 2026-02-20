@@ -69,13 +69,20 @@ class Tap_By_Activity:
 
 
     # 皇榜
-    def Notice_operation(self):
-        # 点击每日奖励入口
-        time.sleep(1)
-        self.utils.coordinates(width=0.88, height=0.28)
-        time.sleep(0.5)
-        # 点击领取免费奖励
-        self.utils.coordinates(width=0.82, height=0.42)
+    def notice_operation(self):
+        is_home = self.utils.Page_Percent()
+        if is_home is True:
+            is_notice = self.utils.match_and_click(template_path="../page_png/activity/Notice_page.png", region=(0, 0, 1080, 600),
+                                       page_name="皇榜", is_click=True)
+            if is_notice is True:
+                # 点击每日奖励入口
+                time.sleep(1)
+                self.utils.coordinates(width=0.88, height=0.28)
+                time.sleep(0.5)
+                # 点击领取免费奖励
+                self.utils.coordinates(width=0.82, height=0.42)
+            else:
+                print("not notice")
 
     # 帝魂帝尊操作
     def emperor_operation(self, bt_pay=1, activity_tpye=None):
@@ -246,6 +253,6 @@ class Tap_By_Activity:
         self.shenmo()
         # 鸿运
         self.hongyun()
-
-
+        # 皇榜
+        self.notice_operation()
 
