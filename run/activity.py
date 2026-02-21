@@ -21,12 +21,12 @@ class Run:
             for i in range(202508001, 202508029):
                 self.tap_by_login.Page_Login(username=i, password="python")
 
-                self.page_activity.all_activity()
+                self.page_activity.emperor_operation()
 
                 self.tap_by_outlogin.Page_Out_Login()
 
 
-                # break
+                break
 
         except Exception as e:
             print(e)

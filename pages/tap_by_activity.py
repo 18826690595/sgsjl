@@ -27,7 +27,7 @@ class Tap_By_Activity:
         # :param page_name: 页面名称
         :return: 执行成功返回True，否则返回False
         """
-        time.sleep(0.5)
+        time.sleep(0.8)
         is_lb = self.utils.compare_image_region(template_path=lb_path, region=region_lb, page_name="礼包")
         time.sleep(0.5)
         if is_lb is True:
@@ -39,7 +39,7 @@ class Tap_By_Activity:
             self.utils.compare_image_region(template_path=yb_qd_path, region=region_yb_qd, page_name="购买元宝礼包确定")
             time.sleep(0.3)
             for i in range(2):
-                self.utils.coordinates(width=0.55, height=0.95)
+                self.utils.coordinates(width=0.3, height=0.95)
 
             return is_lb
 
@@ -85,22 +85,34 @@ class Tap_By_Activity:
                 print("not notice")
 
     # 帝魂帝尊操作
-    def emperor_operation(self, bt_pay=1, activity_tpye=None):
-        huodong = {
-            "page_path": "../page_png/armoury_page_inner.png",
-            "lb_path": "../page_png/armoury_page_lb.png",
-            "mf_path": "../page_png/armoury_lb_mf.png",
-            "yb_path": "../page_png/armoury_lb_yb.png",
-            "page_name": "锦囊妙计",
-            "region_page": (850, 1780, 180, 180),
-            "region_lb": (940, 435, 120, 120),
-            "region_mf": (780, 750, 230, 100),
-            "region_yb": (780, 1028, 230, 100)
-        }
-        res = self.lq_lb(lb_path=huodong["lb_path"], mf_path=huodong["mf_path"],
-                         yb_path=huodong["yb_path"], region_lb=huodong["region_lb"],
-                         region_mf=huodong["region_mf"], region_yb=huodong["region_yb"])
-        return res
+    def emperor_operation(self):
+        is_home = self.utils.Page_Percent()
+        if is_home is True:
+            is_dihun = self.utils.match_and_click(template_path="../page_png/activity/emperor_page.png", region=(0, 0, 1080, 600),
+                                       page_name="神魔", is_click=True)
+            if is_dihun is True:
+                huodong = {
+                    "page_path": "../page_png/activity/emperor_page.png",
+                    "lb_path": "../page_png/activity/dihun/lb.png",
+                    "mf_path": "../page_png/activity/dihun/lb_mf.png",
+                    "yb_path": "../page_png/activity/dihun/lb_yb.png",
+                    "page_name": "神魔",
+                    "region_page": (860, 1860, 180, 250),
+                    "region_lb": (930, 230, 120, 300),
+                    "region_mf": (800, 780, 200, 50),
+                    "region_yb": (800, 780, 200, 50)
+                }
+
+                for i in range(2):
+                    if i == 1:
+                        self.utils.coordinates(width=0.7, height=0.96)
+                        time.sleep(0.5)
+                    self.lq_lb(lb_path=huodong["lb_path"], mf_path=huodong["mf_path"], yb_path=huodong["yb_path"],
+                               yb_qd_path=None, region_lb=huodong["region_lb"],
+                               region_mf=huodong["region_mf"], region_yb=huodong["region_yb"],
+                               region_yb_qd=None)
+
+                return True
 
     # 鸿运
     def hongyun(self):
@@ -145,14 +157,7 @@ class Tap_By_Activity:
                 "region_yb": (800, 780, 200, 50),
                 # "region_yb": (780, 1039, 230, 85)
             }
-            # time.sleep(0.5)
-            #
-            # # 配对神魔页面
-            # is_page_inner = self.utils.compare_image_region(template_path=huodong["page_path"], region=huodong["region_page"],
-            #                                                         page_name=huodong["page_name"])
 
-            # time.sleep(0.5)
-            # if is_page_inner is True:
 
 
             for i in range(2):
@@ -178,73 +183,7 @@ class Tap_By_Activity:
         else:
             print("不在首页跳过税收操作")
 
-    # 活动操作
-    def Page_Activity(self):
-        is_home = self.utils.Page_Percent()
-        if is_home is True:
-            # 遍历点击活动区域
-            activity_page = [
-                "../page_png/activity/armoury_page.png", # 天降鸿运
-                "../page_png/activity/horses_page.png",  # 厉兵牧马
-                "../page_png/activity/Notice_page.png",  # 皇榜
-                "../page_png/activity/emperor_page.png", # 帝魂
-                "../page_png/activity/demon_page.png"   # 神魔
-            ]
-            x_list = [18, 172, 326, 480, 633, 783]
-            y_list = [210, 410, 610]
-            activity_total = 0
-            for y in y_list:
-                for x in x_list:
-                    # 过滤点击空白区域
-                    if y == y_list[0] and x is x_list[4]:
-                        print(f"跳过（{x, y}）")
-                        break
 
-                    print("="*150)
-                    for activity_path in activity_page:
-                        is_activity_page = self.utils.compare_image_region(template_path=activity_path, region=(x, y, 300, 400), page_name=activity_path, threshold=0.5)
-                        # 判断是否匹配到活动页面
-                        if is_activity_page is True:
-                            # 根据不同活动执行不同操作
-                            # 鸿运
-                            print(f"activity_path:{activity_path}\nactivity_page:{activity_page}")
-
-                            # 天降鸿运
-                            if activity_path == activity_page[0]:
-                                is_hongyun = self.hongyun()
-                                if is_hongyun is True:
-                                    print("天降鸿运匹配成功")
-                                    activity_total = activity_total + 1
-                            # 神魔
-                            elif activity_path == activity_page[1]:
-                                self.shenmo()
-                                print("神魔匹配成功")
-                                activity_total = activity_total + 1
-                            # 厉兵牧马
-                            elif activity_path == activity_page[2]:
-                                self.horses_operation()
-                                print("厉兵牧马匹配成功")
-
-                                activity_total = activity_total + 1
-                            # 皇榜
-                            elif activity_path == activity_page[3]:
-                                # self.Notice_operation()
-                                print("皇榜匹配成功")
-
-                                activity_total = activity_total + 1
-                            # 帝魂帝尊
-                            elif activity_path == activity_page[4]:
-                                # self.emperor_operation()
-                                print("帝魂帝尊匹配成功")
-
-                                activity_total = activity_total + 1
-                            if activity_total == len(activity_page):
-                                print("活动都执行完")
-                                return True
-                            else:
-                                print(activity_total,"="*100)
-                    self.utils.Page_Percent()
-                    time.sleep(0.5)
 
 
 
@@ -255,4 +194,6 @@ class Tap_By_Activity:
         self.hongyun()
         # 皇榜
         self.notice_operation()
+        # 帝魂
+        self.emperor_operation()
 
