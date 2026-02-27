@@ -1,0 +1,13 @@
+Windowns定时关机，包含强制关闭进程
+shutdown /s /f /t 3600
+
+
+adb环境
+adb  connect 127.0.0.1:7555
+
+appium环境
+appium --session-override --log-timestamp --local-timezone
+
+
+依赖
+opencv：用于图像识别

@@ -89,14 +89,14 @@ class Tap_By_Activity:
         is_home = self.utils.Page_Percent()
         if is_home is True:
             is_dihun = self.utils.match_and_click(template_path="../page_png/activity/emperor_page.png", region=(0, 0, 1080, 600),
-                                       page_name="神魔", is_click=True)
+                                       page_name="帝魂", is_click=True)
             if is_dihun is True:
                 huodong = {
                     "page_path": "../page_png/activity/emperor_page.png",
                     "lb_path": "../page_png/activity/dihun/lb.png",
                     "mf_path": "../page_png/activity/dihun/lb_mf.png",
                     "yb_path": "../page_png/activity/dihun/lb_yb.png",
-                    "page_name": "神魔",
+                    "page_name": "帝魂",
                     "region_page": (860, 1860, 180, 250),
                     "region_lb": (930, 230, 120, 300),
                     "region_mf": (800, 780, 200, 50),
@@ -183,6 +183,58 @@ class Tap_By_Activity:
         else:
             print("不在首页跳过税收操作")
 
+
+    #
+    # 报名阵营夺魁
+    def zhenying(self):
+        # 每周1、3、5报名
+        is_home = self.utils.Page_Percent()
+        if is_home is True:
+            self.utils.coordinates(width=0.2, height=0.5)
+
+
+    # 逐鹿中原
+    def zhulu(self):
+        # 每周2、4、6执行
+        is_home = self.utils.Page_Percent()
+        if is_home is True:
+            self.utils.match_and_click(template_path="../page_png/activity/zhulu.png", region=(0, 0, 1080, 600),
+                                       page_name="逐鹿中原", is_click=True)
+
+            time.sleep(0.5)
+            self.utils.coordinates(width=0.75, height=0.95)
+
+            # 冠军
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.15, height=0.65)
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.8, height=0.3)
+
+            # 亚军
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.4, height=0.65)
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.8, height=0.4)
+
+            # 季军
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.65, height=0.65)
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.8, height=0.5)
+
+            # 殿军
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.9, height=0.65)
+            time.sleep(0.3)
+            self.utils.coordinates(width=0.8, height=0.6)
+
+
+
+
+
+    # 九州争霸
+    # 领取巅峰夺魁奖励
+    # 巅峰夺魁竞猜
 
 
 

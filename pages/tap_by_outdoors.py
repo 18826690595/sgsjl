@@ -1,5 +1,6 @@
 
 import time
+from datetime import datetime
 from time import sleep
 
 from core.utils import Utils
@@ -117,16 +118,21 @@ class Tap_By_OutDoors:
 
     # 火烧赤壁
     def ScarredCliff(self):
-        outdoors = self.tap_by_outdoors()
-        if outdoors is True:
-            self.utils.coordinates(width=0.3, height=0.5)
-            # 需要添加检验是否可以执行扫荡
-            time.sleep(0.3)
-            self.utils.coordinates(width=0.9, height=0.7)
+        is_today = datetime.today().weekday()
+        if is_today % 2 == 1:
+            outdoors = self.tap_by_outdoors()
+            if outdoors is True:
+                self.utils.coordinates(width=0.3, height=0.5)
+                # 需要添加检验是否可以执行扫荡
+                time.sleep(0.3)
+                self.utils.coordinates(width=0.9, height=0.7)
 
-            time.sleep(0.3)
-            self.utils.coordinates(width=0.5, height=0.65)
-
+                time.sleep(0.3)
+                self.utils.coordinates(width=0.5, height=0.65)
+            return True
+        else:
+            print("非执行日不执行火烧赤壁")
+            return False
 
     # 副本-高效率
     def fuben(self):
