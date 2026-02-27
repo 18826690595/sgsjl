@@ -490,12 +490,18 @@ class Utils:
         """按屏幕百分比点击"""
         try:
             for i in range(num):
+                # 防止在好友切磋卡住
                 if i == 0:
                     self.coordinates(width=0.035, height=0.95)
-                is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True, page_name="主城")
-                if is_home is True:
-                    # 如果在首页则返回True
-                    return True
+
+                # 第三次开始对比匹配首页
+                elif i > 2:
+                    is_home = self.get_snapshot(file_path="../page_png/home.png", compare=True, page_name="主城")
+                    if is_home is True:
+                        # 如果在首页则返回True
+                        return True
+
+
                 # 防止支付弹窗卡死
                 elif i == 5 or i == 9:
                     self.coordinates(width=0.835, height=0.345)

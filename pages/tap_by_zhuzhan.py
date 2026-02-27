@@ -3,33 +3,32 @@ import time
 from core.utils import Utils
 
 
-class Tap_By_ZhuZhan():
+class Tap_By_ZhuZhan(Utils):
 
     def __init__(self, driver):
-        self.driver = driver
-        self.utils = Utils(self.driver)
+        super().__init__(driver)
 
     # 神兽
     def Super_Monster(self):
         """按屏幕百分比点击"""
         try:
             # 点击主城
-            is_home = self.utils.Page_Percent()
+            is_home = self.Page_Percent()
             if is_home is True:
-                self.utils.coordinates(width=0.4, height=0.96)
+                self.coordinates(width=0.4, height=0.96)
                 time.sleep(0.5)
-                self.utils.coordinates(width=0.4, height=0.85)
+                self.coordinates(width=0.4, height=0.85)
                 time.sleep(0.5)
-                self.utils.coordinates(width=0.4, height=0.96)
+                self.coordinates(width=0.4, height=0.96)
                 time.sleep(0.5)
                 # 点击礼包
-                self.utils.coordinates(width=0.93, height=0.25)
+                self.coordinates(width=0.93, height=0.25)
                 time.sleep(0.5)
                 for i in range(2):
-                    self.utils.coordinates(width=0.86, height=0.38)
+                    self.coordinates(width=0.86, height=0.38)
                     time.sleep(0.5)
                 for i in range(2):
-                    self.utils.coordinates(width=0.86, height=0.52)
+                    self.coordinates(width=0.86, height=0.52)
                     time.sleep(0.5)
 
             else:
@@ -48,35 +47,35 @@ class Tap_By_ZhuZhan():
         """按屏幕百分比点击"""
         try:
             # 点击主城
-            is_home = self.utils.Page_Percent()
+            is_home = self.Page_Percent()
             if is_home is True:
-                self.utils.coordinates(width=0.4, height=0.96)
+                self.coordinates(width=0.4, height=0.96)
                 time.sleep(0.5)
-                self.utils.swipe_screen(0.5, 0.8, 0.5, 0.2)
+                self.swipe_screen(0.5, 0.8, 0.5, 0.2)
                 time.sleep(1)
                 # 点击红颜入口
-                self.utils.coordinates(width=0.8, height=0.48)
+                self.coordinates(width=0.8, height=0.48)
                 time.sleep(0.5)
-                is_beauty = self.utils.get_snapshot(file_path="../page_png/beauty.png", compare=True, page_name="红颜")
+                is_beauty = self.get_snapshot(file_path="../page_png/beauty.png", compare=True, page_name="红颜")
                 if is_beauty is True:
-                    self.utils.coordinates(width=0.4, height=0.96)
+                    self.coordinates(width=0.4, height=0.96)
                     time.sleep(0.5)
 
                     # 循环游历没点12次挑战一次副本
                     for a in range(3):
                         for i in range(13):
                             # 点击游历
-                            self.utils.coordinates(width=0.5, height=0.84)
+                            self.coordinates(width=0.5, height=0.84)
                             time.sleep(1.4)
 
                         time.sleep(1)
-                        self.utils.coordinates(width=0.5, height=0.73)
+                        self.coordinates(width=0.5, height=0.73)
                         time.sleep(1)
-                        self.utils.coordinates(width=0.6, height=0.88)
+                        self.coordinates(width=0.6, height=0.88)
                         time.sleep(1.3)
-                        self.utils.coordinates(width=0.95, height=0.84)
+                        self.coordinates(width=0.95, height=0.84)
                         time.sleep(1.5)
-                        self.utils.coordinates(width=0.7, height=0.88)
+                        self.coordinates(width=0.7, height=0.88)
                         time.sleep(1)
 
 
@@ -87,16 +86,16 @@ class Tap_By_ZhuZhan():
 
 
     def cangpin(self):
-        is_zb = self.utils.compare_image_region(template_path="../page_png/zhuzhan/zb.png", region=(520, 1760, 130, 130),
+        is_zb = self.compare_image_region(template_path="../page_png/zhuzhan/zb.png", region=(520, 1760, 130, 130),
                                         page_name="珍宝入口", threshold=0.99)
         if is_zb is True:
             time.sleep(0.5)
 
-            self.utils.coordinates(width=0.1, height=0.32)
+            self.coordinates(width=0.1, height=0.32)
             time.sleep(0.1)
-            self.utils.coordinates(width=0.95, height=0.32)
+            self.coordinates(width=0.95, height=0.32)
             time.sleep(0.5)
-            self.utils.compare_image_region(template_path="../page_png/zhuzhan/cp_lb.png", region=(780, 760, 200, 90),
+            self.compare_image_region(template_path="../page_png/zhuzhan/cp_lb.png", region=(780, 760, 200, 90),
                                             page_name="珍宝入口", threshold=0.99)
 
 
@@ -108,4 +107,4 @@ class Tap_By_ZhuZhan():
         self.zhuzhan_beauty()
 
         # 藏品
-        self.cangpin()
+        # self.cangpin()

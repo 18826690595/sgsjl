@@ -3,11 +3,10 @@ import time
 from core.utils import Utils
 
 
-class Tap_By_test:
+class Tap_By_test(Utils):
 
-    def __init__(self, driver=None):
-        self.driver = driver
-        self.utils = Utils(self.driver)
+    def __init__(self, driver):
+        super().__init__(driver)
 
     # 返回点击主城
     def test(self):
@@ -30,11 +29,14 @@ class Tap_By_test:
         #                 print(f"({x}, {y}, 123, 150)=======0")
 
         # is_beauty = self.utils.compare_image_region(template_path="../page_png/pq/yb.png", region=(597, 899, 150, 150), page_name="锦囊礼包", is_click=False)
-        is_beauty = self.utils.match_and_click(template_path="../page_png/activity/demon_page.png", region=(0, 0, 1080, 600), page_name="锦囊礼包", is_click=True)
-        if is_beauty is True:
-            print("1")
-        else:
-            print("0")
+        # is_beauty = self.utils.match_and_click(template_path="../page_png/activity/demon_page.png", region=(0, 0, 1080, 600), page_name="锦囊礼包", is_click=True)
+        # if is_beauty is True:
+        #     print("1")
+        # else:
+        #     print("0")
+
+        self.compare_image_region(template_path="../page_png/public/win1.png", region=(896, 510, 45, 45),
+                                  page_name="霸王弹窗")
 
 
     def some_method(self):

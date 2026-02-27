@@ -29,7 +29,7 @@ class Run():
             # "../page_png/Notice_page.png",  # 皇榜
             # "../page_png/emperor_page.png",  # 帝魂
             # "../page_png/demon_page.png"  # 神魔  660 899 1138 1377
-            self.utils.get_snapshot(file_path="./page_png/activity/dihun/test.png", region=(930, 230, 120, 300), overwrite=True)
+            self.utils.get_snapshot(file_path="./page_png/public/win2.png", region=(956, 335, 80, 80), overwrite=True)
             # self.utils.find_game_entry(button_name='挑战')
 
             # is_home = self.utils.get_snapshot(file_path="./page_png/demon_page.png", compare=True, page_name="主城")

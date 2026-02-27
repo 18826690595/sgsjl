@@ -3,12 +3,14 @@ import time
 from core.utils import Utils
 
 
-class PageBarrier(Utils):
+class Page_GC(Utils):
+    def __init__(self, driver):
+        super().__init__(driver)
 
 
 
     # 推图
-    def page_barrier(self):
+    def gongcheng(self):
         # 初始化点击主城
         is_home = self.Page_Percent()
         if is_home is True:
@@ -31,7 +33,7 @@ class PageBarrier(Utils):
             self.coordinates(width=0.75, height=0.88)
 
             i = i + 1
-            if i == 20:
+            if i == 10:
                 break
 
 

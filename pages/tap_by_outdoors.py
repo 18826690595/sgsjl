@@ -1,5 +1,6 @@
 
 import time
+from datetime import datetime
 from time import sleep
 
 from core.utils import Utils
@@ -117,16 +118,21 @@ class Tap_By_OutDoors:
 
     # 火烧赤壁
     def ScarredCliff(self):
-        outdoors = self.tap_by_outdoors()
-        if outdoors is True:
-            self.utils.coordinates(width=0.3, height=0.5)
-            # 需要添加检验是否可以执行扫荡
-            time.sleep(0.3)
-            self.utils.coordinates(width=0.9, height=0.7)
+        is_today = datetime.today().weekday()
+        if is_today % 2 == 1:
+            outdoors = self.tap_by_outdoors()
+            if outdoors is True:
+                self.utils.coordinates(width=0.3, height=0.5)
+                # 需要添加检验是否可以执行扫荡
+                time.sleep(0.3)
+                self.utils.coordinates(width=0.9, height=0.7)
 
-            time.sleep(0.3)
-            self.utils.coordinates(width=0.5, height=0.65)
-
+                time.sleep(0.3)
+                self.utils.coordinates(width=0.5, height=0.65)
+            return True
+        else:
+            print("非执行日不执行火烧赤壁")
+            return False
 
     # 副本-高效率
     def fuben(self):
@@ -216,54 +222,43 @@ class Tap_By_OutDoors:
                         #     self.utils.coordinates(width=0.2, height=0.96)
 
     # 攻城略地税收
+
+
     # 云梦泽
-    def Yunmengze(self):
+    def yunmengze(self):
         is_outdoors1 = self.tap_by_outdoors()
         if is_outdoors1 is True:
-            self.utils.coordinates(width=0.75, height=0.8)
-            time.sleep(0.5)
 
-            for i in range(2):
-                # 点击野怪猎人
-                self.utils.coordinates(width=0.8, height=0.18)
-                time.sleep(1)
-                # 图像识别点击野怪猎人
-                self.utils.click_icon(icon_path="../page_png/yeguai1.png")
-                time.sleep(0.5)
-                # 点击挑战
-                self.utils.coordinates(width=0.5, height=0.73)
-                time.sleep(0.5)
-                # 点击出战
-                self.utils.coordinates(width=0.7, height=0.85)
-                time.sleep(1.5)
-                # 点击跳过战斗
-                self.utils.coordinates(width=0.95, height=0.84)
-                time.sleep(1.5)
-                # 点击返回玩法
-                self.utils.coordinates(width=0.75, height=0.88)
+            is_ymz = self.utils.compare_image_region(template_path="../page_png/outdoor/yunmengze/yunmengze.png",page_name="云梦泽入口")
+            print(is_ymz)
+            # 未进入云梦泽页面则退出
+            if is_ymz is False:
+                print("未进入云梦泽页面")
+                return False
 
-
-
-
+            # 遍历挑战两次猎人
             for i in range(2):
                 # 点击野怪驻军
-                self.utils.coordinates(width=0.8, height=0.21)
+                self.utils.coordinates(width=0.8, height=0.18)
                 time.sleep(1)
                 # 图像识别点击野怪驻军
-                self.utils.click_icon(icon_path="../page_png/yeguai1.png")
-                time.sleep(0.5)
-                # 点击挑战
-                self.utils.coordinates(width=0.5, height=0.73)
-                time.sleep(0.5)
-                # 点击出战
-                self.utils.coordinates(width=0.7, height=0.85)
-                time.sleep(1.5)
-                # 点击跳过战斗
-                self.utils.coordinates(width=0.95, height=0.84)
-                time.sleep(1.5)
-                # 点击返回玩法
-                self.utils.coordinates(width=0.75, height=0.88)
-                time.sleep(1)
+                is_lieren = self.utils.compare_image_region(template_path="../page_png/outdoor/yunmengze/lieren.png", region=(220, 350, 1080, 1300), page_name="猎人")
+                if is_lieren is True:
+                    time.sleep(0.5)
+                    # 点击挑战
+                    self.utils.coordinates(width=0.5, height=0.73)
+                    time.sleep(0.5)
+                    # 点击出战
+                    self.utils.coordinates(width=0.7, height=0.85)
+                    time.sleep(1.5)
+                    # 点击跳过战斗
+                    self.utils.coordinates(width=0.95, height=0.84)
+                    time.sleep(1.5)
+                    # 点击返回玩法
+                    self.utils.coordinates(width=0.75, height=0.88)
+                    time.sleep(1)
+
+
 
     # 七星遗迹
     def qixingyiji(self):
@@ -382,6 +377,9 @@ class Tap_By_OutDoors:
         self.fuben()
         # 虎牢
         self.rage_at_tiger_lair()
+        # 云梦泽
+        self.yunmengze()
+
         # 七星遗迹
         self.qixingyiji()
         # 单骑救主
@@ -391,7 +389,7 @@ class Tap_By_OutDoors:
 
         # 荆州
         # self.JingZhou()
-        # self.Yunmengze()
+
 
 
 
