@@ -1,5 +1,5 @@
 Windowns定时关机，包含强制关闭进程
-shutdown /s /f /t 14,400
+shutdown -s -f -t 14400
 
 
 adb环境

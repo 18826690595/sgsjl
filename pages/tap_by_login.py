@@ -82,13 +82,34 @@ class Tap_By_Login(Utils):
                 return False
 
             time.sleep(5)
-            for i in range(10):
-                # 关闭弹窗(需要增加判断是否出现弹窗)
-                self.compare_image_region(template_path="../page_png/public/win3.png", region=(896, 510, 45, 45), page_name="霸王弹窗")
+            # for i in range(18):
+            #
+            #
+            #     # 关闭弹窗(需要增加判断是否出现弹窗)
+            #     is_win = self.compare_image_region(template_path="../page_png/public/win.png", region=(896, 510, 45, 45),
+            #                               page_name="霸王弹窗")
+            #     if is_win is True:
+            #         self.compare_image_region(template_path="../page_png/public/win3.png", region=(896, 510, 45, 45), page_name="霸王弹窗")
+            #         win2 = self.compare_image_region(template_path="../page_png/public/win2.png", region=(956, 335, 80, 80), page_name="活动弹窗")
+            #         if win2 is True:
+            #             break
+
+
+            for i in range(18):
+                # tanchuang2 = self.get_snapshot(file_path="../page_png/tanchuang2.png", compare=True)
+                # if tanchuang2 is True:
+                #     # 关闭弹窗(需要增加判断是否出现弹窗)
+                #     self.coordinates(width=0.85, height=0.28)
+                #     self.coordinates(width=0.92, height=0.2)
+                #     break
+                # if i == 17:
+                #     self.coordinates(width=0.85, height=0.28)
+
+                self.compare_image_region(template_path="../page_png/public/win3.png", region=(896, 510, 45, 45),
+                                          page_name="霸王弹窗")
                 win2 = self.compare_image_region(template_path="../page_png/public/win2.png", region=(956, 335, 80, 80), page_name="活动弹窗")
                 if win2 is True:
                     break
-
 
 
 

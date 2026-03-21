@@ -317,8 +317,8 @@ class Tap_By_Activity(Utils):
         self.hongyun()
         # 皇榜
         self.notice_operation()
-        # # 帝魂
-        # self.emperor_operation()
+        # 帝魂
+        self.emperor_operation()
         # # 净世真灵
         # self.jinshizhenling()
         # # 八阵奇图

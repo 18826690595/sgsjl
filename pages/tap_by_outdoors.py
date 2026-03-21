@@ -17,7 +17,7 @@ class Tap_By_OutDoors:
     def tap_by_outdoors(self):
         # 如果在野外页面则返回True
         for i in range(5):
-            is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
+            is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True, page_name="野外")
             if is_outdoors1 is True:
                 print(f"在野外页面则返回True{i}")
                 return True
@@ -30,7 +30,7 @@ class Tap_By_OutDoors:
         print("============")
         self.utils.coordinates(width=0.76, height=0.94)
         time.sleep(0.5)
-        is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True)
+        is_outdoors1 = self.utils.get_snapshot(file_path="../page_png/outdoors1.png", compare=True, page_name="野外")
         if is_outdoors1 is True:
             return True
 
@@ -316,7 +316,7 @@ class Tap_By_OutDoors:
         time.sleep(1.5)
         self.utils.coordinates(width=0.8, height=0.5)
         time.sleep(0.5)
-        is_zhaoyun = self.utils.get_snapshot(file_path="../page_png/zhaoyun.png", compare=True)
+        is_zhaoyun = self.utils.get_snapshot(file_path="../page_png/zhaoyun.png", compare=True, page_name="单骑救主")
         if is_zhaoyun is True:
             self.utils.coordinates(width=0.42, height=0.95)
             time.sleep(0.5)
@@ -339,7 +339,7 @@ class Tap_By_OutDoors:
         time.sleep(1.5)
         self.utils.coordinates(width=0.4, height=0.8)
         time.sleep(0.5)
-        is_bogutongjin = self.utils.get_snapshot(file_path="../page_png/bogutongjin.png", compare=True)
+        is_bogutongjin = self.utils.get_snapshot(file_path="../page_png/bogutongjin.png", compare=True, page_name="博古通今")
         if is_bogutongjin is True:
             self.utils.coordinates(width=0.5, height=0.85)
             time.sleep(0.5)

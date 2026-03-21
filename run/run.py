@@ -22,7 +22,7 @@ from pages.tap_by_zhuzhan import Tap_By_ZhuZhan
 class Run:
     def __init__(self):
         self.base_app = AppAutoManager()
-        self.driver = self.base_app.appium_init()
+        self.driver = self.base_app.appium_init()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
         # self.utils = Utils(self.driver)
 
         # 实例化页面组件
@@ -47,7 +47,7 @@ class Run:
         """主运行方法"""
         start_time = time.time()  # 记录开始时间
         try:
-            for i in range(202508028, 202508029):
+            for i in range(202508001, 202508028):
 
                 # 登录
                 log_login = self.tap_by_login.Page_Login(username=i, password="python")
