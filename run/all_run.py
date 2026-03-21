@@ -22,8 +22,7 @@ from pages.tap_by_zhuzhan import Tap_By_ZhuZhan
 class Run:
     def __init__(self):
         self.base_app = AppAutoManager()
-        self.driver = self.base_app.appium_init()                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               
-        # self.utils = Utils(self.driver)
+        self.driver = self.base_app.appium_init()
 
         # 实例化页面组件
         self.tap_by_login = Tap_By_Login(self.driver)

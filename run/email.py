@@ -2,6 +2,7 @@
 from datetime import datetime
 
 from pages.tap_by_activity import Tap_By_Activity
+from pages.tap_by_email import Tap_By_Email
 from pages.tap_by_login import Tap_By_Login
 from core.base_app import AppAutoManager
 from pages.tap_by_outlogin import Tap_By_OutLogin
@@ -15,9 +16,9 @@ class Run:
         # # 实例化页面组件
         self.tap_by_login = Tap_By_Login(self.driver)
         self.tap_by_outlogin = Tap_By_OutLogin(self.driver)
-        self.page_activity = Tap_By_Activity(self.driver)
+        self.tap_by_email = Tap_By_Email(self.driver)
 
-    def get_run(self):
+    def email_run(self):
         """主运行方法"""
         try:
 
@@ -26,14 +27,11 @@ class Run:
             for i in range(202508001, 202508029):
                 self.tap_by_login.Page_Login(username=i, password="python")
 
-                self.page_activity.emperor_operation()
+                self.tap_by_email.page_mail()
 
                 self.tap_by_outlogin.Page_Out_Login()
 
 
-                # break
-            # else:
-            #     print(f"今天是周{is_week}不执行中原")
 
         except Exception as e:
             print(e)
@@ -43,5 +41,5 @@ class Run:
 
 if __name__ == "__main__":
     run = Run()
-    run.get_run()
+    run.email_run()
 

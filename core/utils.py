@@ -501,16 +501,22 @@ class Utils:
                         # 如果在首页则返回True
                         return True
 
+                    if i >= 3:
+                        self.compare_image_region(template_path="../page_png/public/hezi.png", region=(980,786,30,30), page_name="盒子弹窗")
 
-                # 防止支付弹窗卡死
-                elif i == 5 or i == 9:
-                    self.coordinates(width=0.835, height=0.345)
-                    self.coordinates(width=0.82, height=0.355)
+                        self.compare_image_region(template_path="../page_png/public/win3.png", region=(896, 510, 45, 45), page_name="霸王弹窗")
 
-                elif i == 3:
-                    self.coordinates(width=0.92, height=0.2)
-                else:
-                    self.coordinates(width=x_percent, height=y_percent)
+                        self.compare_image_region(template_path="../page_png/public/win2.png", region=(956, 335, 80, 80), page_name="活动弹窗")
+
+                    # 防止支付弹窗卡死
+                    if i == 5 or i == 9:
+                        self.coordinates(width=0.835, height=0.345)
+                        self.coordinates(width=0.82, height=0.355)
+
+
+                    else:
+                        self.coordinates(width=x_percent, height=y_percent)
+
             return False
         except Exception as e:
             print(e)

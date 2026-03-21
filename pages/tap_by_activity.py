@@ -2,6 +2,8 @@ import time
 
 from core.utils import Utils
 from pages.base_page import BasePage
+from datetime import datetime
+
 
 
 class Tap_By_Activity(Utils):
@@ -45,8 +47,12 @@ class Tap_By_Activity(Utils):
             self.coordinates(width=0.96, height=0.5)
             time.sleep(0.5)
             self.compare_image_region(template_path=yb_path, region=region_yb, page_name="购买元宝礼包")
-            time.sleep(1)
-            self.compare_image_region(template_path=yb_qd_path, region=region_yb_qd, page_name="购买元宝礼包确定")
+
+            # 锦囊妙计才有购买礼包确认按钮
+            if activity_name == "锦囊妙计":
+                time.sleep(1)
+                self.compare_image_region(template_path=yb_qd_path, region=region_yb_qd, page_name="购买元宝礼包确定")
+
             time.sleep(0.3)
             for i in range(2):
                 self.coordinates(width=0.3, height=0.95)
@@ -108,15 +114,16 @@ class Tap_By_Activity(Utils):
             "region_mf": (800, 780, 200, 50),
             "region_yb": (800, 780, 200, 50)
         }
-
+        for_num = None
         for i in range(2):
             if i == 1:
                 self.coordinates(width=0.7, height=0.96)
+                for_num = 1
                 time.sleep(0.5)
             self.lq_lb(activity_name=huodong["activity_name"],activity_icon=huodong["activity_icon"], lb_path=huodong["lb_path"], mf_path=huodong["mf_path"], yb_path=huodong["yb_path"],
                        yb_qd_path=None, region_lb=huodong["region_lb"],
                        region_mf=huodong["region_mf"], region_yb=huodong["region_yb"],
-                       region_yb_qd=None)
+                       region_yb_qd=None, for_num=for_num)
 
         return True
 
@@ -179,7 +186,8 @@ class Tap_By_Activity(Utils):
         if is_home is True:
             self.coordinates(width=0.55, height=0.05)
             time.sleep(1)
-            for i in range(3):
+            num = 3
+            for i in range(num):
                 self.coordinates(width=0.2, height=0.71)
         else:
             print("不在首页跳过税收操作")
@@ -197,6 +205,13 @@ class Tap_By_Activity(Utils):
     # 逐鹿中原
     def zhulu(self):
         # 每周2、4、6执行
+        today = datetime.today()
+        week = today.weekday()
+        if week % 2 == 0:
+            print(f"今天是星期{week+1}不执行")
+            return False
+
+
         is_home = self.Page_Percent()
         if is_home is True:
             self.match_and_click(template_path="../page_png/activity/zhulu.png", region=(0, 0, 1080, 600),
@@ -311,6 +326,10 @@ class Tap_By_Activity(Utils):
 
 
     def all_activity(self):
+
+        # 税收
+        self.shuishou()
+
         # 神魔
         self.shenmo()
         # 鸿运
@@ -318,11 +337,15 @@ class Tap_By_Activity(Utils):
         # 皇榜
         self.notice_operation()
         # 帝魂
-        self.emperor_operation()
-        # # 净世真灵
-        # self.jinshizhenling()
+        # self.emperor_operation()
+        # 逐鹿中原
+        self.zhulu()
+        # 净世真灵
+        self.jinshizhenling()
         # # 八阵奇图
         # self.bazhen()
+
+
 
 
 

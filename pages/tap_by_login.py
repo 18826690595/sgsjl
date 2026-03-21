@@ -1,4 +1,5 @@
 import time
+from time import sleep
 
 from selenium.webdriver.common.by import By
 
@@ -29,7 +30,7 @@ class Tap_By_Login(Utils):
     def Page_Login(self, username, password="python"):
         print(f"正在登录{username}")
         try:
-            is_login = self.get_snapshot(file_path="../page_png/login.png", compare=True)
+            is_login = self.get_snapshot(file_path="../page_png/login.png", compare=True, page_name="登录页")
             if is_login is True:
                 max_retries = 3
                 retry_count = 0
@@ -53,64 +54,43 @@ class Tap_By_Login(Utils):
                         time.sleep(1)
                         if retry_count == max_retries:
                             raise
-                # # 输入账号
-                # self.driver.coordinates(width=0.5, height=0.4, input_text=username)
-                #
-                # # 输入密码
-                # self.driver.coordinates(width=0.5, height=0.5, input_text=password)
-                # # 点击登录
-                # self.driver.coordinates(width=0.5, height=0.6)
+
                 time.sleep(0.5)
                 # 同意服务条款
                 self.coordinates(width=0.5, height=0.7)
                 time.sleep(0.5)
                 # 跳过手机号绑定
                 self.coordinates(width=0.16, height=0.24)
+                self.coordinates(width=0.07, height=0.96)
+                time.sleep(1)
+                for j in range(10):
+                    # 点击进入游戏
+                    games_door = self.compare_image_region(template_path="../page_png/games_door.png",
+                                                           region=(230, 1320, 590, 220), page_name="进入游戏",
+                                                           is_click=False)
+                    if games_door is True:
+                        self.coordinates(width=0.5, height=0.8)
+                        break
+
+                time.sleep(6)
 
                 # 确认进入游戏页面
-                for i in range(10):
-                    time.sleep(0.5)
-                    games_door = self.get_snapshot(file_path="../page_png/games_door.png", compare=True)
-                    if games_door is True:
-                        break
-                    self.coordinates(width=0.07, height=0.96)
-                time.sleep(0.5)
-                # 点击进入游戏
-                self.coordinates(width=0.5, height=0.8)
+                for i in range(18):
+                    is_win1 = self.compare_image_region(template_path="../page_png/public/win3.png",
+                                                        region=(896, 510, 45, 45), page_name="霸王弹窗")
+                    is_win2 = self.compare_image_region(template_path="../page_png/public/win2.png",
+                                                        region=(956, 335, 80, 80), page_name="活动弹窗")
+                    if is_win2 or is_win1:
+                        return True
+                    else:
+                        self.coordinates(width=0.07, height=0.96)
+
+
+
+
             else:
                 print("未找到登录页")
                 return False
-
-            time.sleep(5)
-            # for i in range(18):
-            #
-            #
-            #     # 关闭弹窗(需要增加判断是否出现弹窗)
-            #     is_win = self.compare_image_region(template_path="../page_png/public/win.png", region=(896, 510, 45, 45),
-            #                               page_name="霸王弹窗")
-            #     if is_win is True:
-            #         self.compare_image_region(template_path="../page_png/public/win3.png", region=(896, 510, 45, 45), page_name="霸王弹窗")
-            #         win2 = self.compare_image_region(template_path="../page_png/public/win2.png", region=(956, 335, 80, 80), page_name="活动弹窗")
-            #         if win2 is True:
-            #             break
-
-
-            for i in range(18):
-                # tanchuang2 = self.get_snapshot(file_path="../page_png/tanchuang2.png", compare=True)
-                # if tanchuang2 is True:
-                #     # 关闭弹窗(需要增加判断是否出现弹窗)
-                #     self.coordinates(width=0.85, height=0.28)
-                #     self.coordinates(width=0.92, height=0.2)
-                #     break
-                # if i == 17:
-                #     self.coordinates(width=0.85, height=0.28)
-
-                self.compare_image_region(template_path="../page_png/public/win3.png", region=(896, 510, 45, 45),
-                                          page_name="霸王弹窗")
-                win2 = self.compare_image_region(template_path="../page_png/public/win2.png", region=(956, 335, 80, 80), page_name="活动弹窗")
-                if win2 is True:
-                    break
-
 
 
         except Exception as e:
